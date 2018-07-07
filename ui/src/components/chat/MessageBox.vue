@@ -12,7 +12,8 @@ export default {
 
 <style scoped>
 #message-box {
-  border: 1px solid blue;
+//   border: 1px solid blue;
   width: 100%;
+  height: 100%;
 }
 </style>
