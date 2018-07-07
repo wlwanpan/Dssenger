@@ -1,15 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueMaterial from 'vue-material'
 
 import './plugins/api.js'
-import './assets/css/normalize.css'
 
-import { MdElevation, MdField, MdButton } from 'vue-material/dist/components'
+import './assets/css/normalize.css'
+import 'vue-material/dist/theme/default.css'
 import 'vue-material/dist/vue-material.min.css'
 
-Vue.use(MdElevation)
-Vue.use(MdField)
-Vue.use(MdButton)
+Vue.use(VueMaterial);
 
 Vue.config.productionTip = false
 
