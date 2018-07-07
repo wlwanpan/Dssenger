@@ -1,5 +1,5 @@
 
-module Model
+module Collection
   module User
 
     KEY = 'users'

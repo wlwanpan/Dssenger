@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'google-protobuf'
+gem 'swarmclient', '~> 0.1.5'
 gem 'bundler'
 gem 'sinatra'
-gem 'swarmclient'
+gem 'sinatra-cross_origin'
 gem 'json'

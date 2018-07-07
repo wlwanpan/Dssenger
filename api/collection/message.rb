@@ -1,5 +1,5 @@
 
-module Model
+module Collection
   module Message
 
     KEY = 'messages'

@@ -1,17 +1,17 @@
 require 'swarmclient'
-require_relative './model/user'
-require_relative './model/conversation'
-require_relative './model/message'
+require_relative './collection/user'
+require_relative './collection/conversation'
+require_relative './collection/message'
 
 class Bluzelle
 
-  include Model::User
-  include Model::Conversation
-  include Model::Message
+  include Collection::User
+  include Collection::Conversation
+  include Collection::Message
 
   ENDPOINT = 'testnet-dev.bluzelle.com'
   PORT = 51010
-  UUID = '9cec813e-8191-11e8-adc0-fa7ae01bbebc'
+  UUID = '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # to change
 
   def initialize
     @_bluzelle = Swarmclient::Communication.new endpoint: ENDPOINT, port: PORT, uuid: UUID
