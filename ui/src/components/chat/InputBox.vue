@@ -23,11 +23,12 @@ export default {
 
 <style scoped>
 #input-container {
-  border: 1px solid red;
   width: 100%;
+  height: 10%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border: 1px solid red;
 }
 
 #input-text {
