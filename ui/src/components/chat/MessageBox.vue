@@ -6,7 +6,7 @@
                 {{ msg.body }}
             </div>
         </div>
-        <div v-else class="message-response"> 
+        <div v-else class="message-response">
             <div class="message-bubble">
                 {{ msg.body }}
             </div>
@@ -36,9 +36,9 @@ export default {
 .message-bubble {
     padding: 5px 10px;
     margin: 5px 0;
-    -webkit-border-radius: 13px; 
-    -moz-border-radius: 13px; 
-    border-radius: 13px; 
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px;
+    border-radius: 13px;
 }
 
 .message-own {

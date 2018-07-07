@@ -43,7 +43,7 @@ export default {
     height: 100vh;
     background: #05A6FF;
     padding-top: 10px;
-    min-width: 320px;
+    min-width: 30vh;
 }
 
 </style>

@@ -5,6 +5,9 @@
       <message-box :conversation="conversation"></message-box>
       <input-box></input-box>
     </div>
+    <div id="buffer">
+      <p>PLACEHOLDER.. OTHER CONTENT HERE??</p>
+    </div>
   </div>
 </template>
 
@@ -59,8 +62,13 @@ export default {
 #message-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 70%;
   justify-content: space-between;
   height: 100vh;
+}
+
+#buffer {
+  border: 1px solid blue;
+  width: 30%;
 }
 </style>
