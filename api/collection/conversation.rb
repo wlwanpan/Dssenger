@@ -1,5 +1,5 @@
 
-module Model
+module Collection
   module Conversation
 
     KEY = 'conversations'
