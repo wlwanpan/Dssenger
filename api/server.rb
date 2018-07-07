@@ -54,22 +54,21 @@ class Connection < Sinatra::Base
   end
 
   get '/users' do
+    @_controller.load_users
+    # Gonna keep fake data till ui is complete
     [{name: 'Elvin'}, {name: 'Neil'}].to_json
   end
 
-  get '/user/:id/contacts' do |user_id|
-    # Get contacts
-    puts 'list of contacts'
+  get '/user/:id/contacts' do |id|
+    @_controller.load_contacts id
   end
 
-  get '/user/:id/conversations' do |user_id|
-    # Get conversation
-    puts 'list of conversations'
+  get '/user/:id/conversations' do |id|
+    @_controller.load_conversations id
   end
 
-  post '/user/:user_id/conversations/:id' do |user_id, conversation_id|
-    #
-    puts 'conversation id'
+  post '/users/conversations/:id' do |id|
+    @_controller.load_messages id
   end
 
   get '/stream', provides: 'text/event-stream' do

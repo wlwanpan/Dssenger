@@ -29,25 +29,43 @@ class Controller
 
   def create_record record_type, record_attrs
     collection = current_collection record_type
-    collection.create_record record_attrs
+    new_record = collection.create_record record_attrs
+    new_record.to_json
   end
 
+  # User specific
   def login name, password
     collection = current_collection 'user'
     user_id = collection.generate_record_id name: name, password_hash: password_hash
-    collection.find_record_by_id user_id
+    user_record = collection.find_record_by_id user_id, [:name, :avatar]
+    user_record.to_json
+  end
+
+  def load_users
+    @_user_collection.load_collection
+  end
+
+  def load_contacts user_id
+    @_user_collection.load_contacts user_id
+  end
+
+  def load_conversations user_id
+    @_user_collection.load_conversations user_id
+  end
+
+  def load_messages conversation_id
+    @_conversation_collection.load_messages conversation_id
   end
 
 private
 
   def init_collection
     bluzelle_keys = @_bluzelle.keys
-
     # collection_id: []
     ['users', 'conversations', 'messages'].each do |collection_id|
       next if bluzelle_keys.include? collection_id
 
-      @_bluzelle.create collection_id.to_s, [].to_json.to_s
+      @_bluzelle.create collection_id.to_s, [].to_json
     end
   end
 
