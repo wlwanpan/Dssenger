@@ -3,12 +3,12 @@ require_relative 'base'
 module Collection
   class User < Base
 
-    ID = 'users'
+    _ID = 'users'
     GEN_ID = [:name, :password_hash]
     ALLOWED_ATTRS = [:name, :email, :password_hash, :contactList, :conversationList, :avatar]
     VISIBLE_ATTRS = [:name, :avatar]
 
-    attr_reader :ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
+    attr_reader :_ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
 
 
     def load_contacts user_id

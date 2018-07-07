@@ -3,12 +3,12 @@ require_relative 'base'
 module Collection
   class Conversation < Base
 
-    ID = 'conversations'
+    _ID = 'conversations'
     GEN_ID = []
     ALLOWED_ATTRS = [:participantList, :messageList]
     VISIBLE_ATTRS = [:participantList, :messageList]
 
-    attr_reader :ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
+    attr_reader :_ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
 
     def load_messages conversation_id
       current_conversation = find_record_by_id conversation_id, [:messageList]
