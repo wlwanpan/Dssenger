@@ -17,6 +17,7 @@ module Collection
           parse_response(resp) || []
         else
           record_ids
+        end
 
       record_ids.map do |record_id|
         find_record_by_id record_id, VISIBLE_ATTRS
@@ -43,7 +44,7 @@ module Collection
     end
 
     def find_record_by_id id, allowed_attrs
-      allowed_attrs || = []
+      allowed_attrs ||= []
       allowed_attrs << :exist
 
       resp = @_bluzelle.read id.to_s
