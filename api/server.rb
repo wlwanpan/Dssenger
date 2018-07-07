@@ -1,9 +1,11 @@
 require 'sinatra'
 require 'sinatra/cross_origin'
 require 'json'
-require_relative './bluzelle'
+require_relative './controller'
+require_relative './helpers/math'
 
 class Connection < Sinatra::Base
+  include Math
 
   set reload_templates: false
 
@@ -24,7 +26,7 @@ class Connection < Sinatra::Base
 
   def initialize
 
-    @_db = Bluzelle.new
+    @_controller = Controller.new
     @_connections = []
 
   end
@@ -33,19 +35,26 @@ class Connection < Sinatra::Base
     200
   end
 
-  # user collection routes
+  get '/user/:id' do |id|
+    user_exist = @_controller.record_exist? 'user', id
+    {exist: user_exist}.to_json
+  end
+
+  post '/user/register' do
+    # User attributes: name, email, password(bytes32), avatar(base64)
+    password_hash = sha256 params[:password]
+    @_controller.create_record('user', {
+        name: params[:name], email: params[:email], password_hash: password_hash, contactList: [], avatar: params[:avatar]
+      })
+  end
+
+  post '/user/login' do
+    password_hash = sha256 params[:password]
+    @_controller.login password_hash, params[:name]
+  end
 
   get '/users' do
     [{name: 'Elvin'}, {name: 'Neil'}].to_json
-  end
-
-  get '/user/register' do
-    puts 'user register'
-  end
-
-  get '/user/login' do
-    # Login
-    puts 'user login'
   end
 
   get '/user/:id/contacts' do |user_id|
@@ -64,6 +73,8 @@ class Connection < Sinatra::Base
   end
 
   get '/stream', provides: 'text/event-stream' do
+    # Might use this one instead of stream
+    # https://github.com/gruis/sinatra-websocket
     # stream :keep_open do |out|
     #   @_connections << out
     #   out.callback { @_connections.delete(out) }

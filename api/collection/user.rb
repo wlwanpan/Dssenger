@@ -1,11 +1,13 @@
+require_relative 'base'
 
 module Collection
-  module User
+  class User < Base
 
-    KEY = 'users'
+    _ID = 'users'
+    _GEN_ID = [:name, :password_hash]
+    _ALLOWED_ATTRS = [:name, :email, :password_hash, :contactList, :avatar]
 
-    def exist
-    end
+    attr_reader :_ID, :_GEN_ID, :_ALLOWED_ATTRS
 
   end
 end

@@ -25,6 +25,7 @@ export default {
       this.contactList = response.data
     }
     catch (e) {
+      // To display error message in popup dialog
       return e
     }
   },
