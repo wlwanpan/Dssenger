@@ -1,7 +1,7 @@
 <template>
   <div class="contact-item">
     <div class="contact-item-bubble md-elevation-1">
-        <h2>{{ contact }}</h2>
+      <h2>{{ contact.name }}</h2>
     </div>
   </div>
 </template>
@@ -10,12 +10,13 @@
 export default {
   name: 'ContactItem',
   props: {
-      contact: String   // String for now, convert to object later
+    contact: Object
   }
 }
 </script>
 
 <style scoped>
+
 .contact-item {
     // border: 1px solid black;
     width: 320px;

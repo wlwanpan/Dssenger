@@ -1,0 +1,19 @@
+{
+  "name": "dssenger",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "concurrently --kill-others \"cd ui && npm run serve\" \"cd api && ruby server.rb\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wlwanpan/Dssenger.git"
+  },
+  "author": "Warren, Neil, Elvin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wlwanpan/Dssenger/issues"
+  },
+  "homepage": "https://github.com/wlwanpan/Dssenger#readme"
+}

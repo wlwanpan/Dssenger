@@ -11,7 +11,7 @@ class Bluzelle
 
   ENDPOINT = 'testnet-dev.bluzelle.com'
   PORT = 51010
-  UUID = '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # to change
+  UUID = '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # Fixed for now
 
   def initialize
     @_bluzelle = Swarmclient::Communication.new endpoint: ENDPOINT, port: PORT, uuid: UUID

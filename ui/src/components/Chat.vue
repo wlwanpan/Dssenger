@@ -1,6 +1,6 @@
 <template>
   <div id="chat">
-    <contacts :contactList="contactList"></contacts>
+    <contacts></contacts>
     <div id="message-container">
       <message-box></message-box>
       <input-box></input-box>
@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import Contacts from './Contacts.vue';
-import InputBox from './InputBox.vue';
-import MessageBox from './MessageBox.vue';
+import Contacts from './chat/Contacts.vue';
+import InputBox from './chat/InputBox.vue';
+import MessageBox from './chat/MessageBox.vue';
 
 export default {
   name: 'Chat',
@@ -21,7 +21,7 @@ export default {
     MessageBox
   },
   data() {
-    return { contactList: ['Warren', 'Wawa', 'Neil'] };
+    return {}
   }
 }
 </script>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Chat from './components/chat/Chat.vue'
+import Chat from './components/Chat.vue'
 
 export default {
   name: 'app',
@@ -25,4 +25,5 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 </style>

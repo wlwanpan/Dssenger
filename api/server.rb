@@ -30,8 +30,7 @@ class Connection < Sinatra::Base
   end
 
   get '/' do
-    # content_type :json
-    { :key1 => 'value1', :key2 => 'value2' }.to_json
+    200
   end
 
   # user collection routes
@@ -44,7 +43,7 @@ class Connection < Sinatra::Base
     puts 'user register'
   end
 
-  get '/user/:id/login' do |user_id|
+  get '/user/login' do
     # Login
     puts 'user login'
   end

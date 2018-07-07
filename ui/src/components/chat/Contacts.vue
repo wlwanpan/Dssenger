@@ -1,6 +1,6 @@
 <template>
   <div id="contacts">
-    <contact-item v-for="c in contactList" :key="c" :contact="c"></contact-item>
+    <contact-item v-for="(contact, index) in contactList" :key="index" :contact="contact"></contact-item>
   </div>
 </template>
 
@@ -9,10 +9,26 @@ import ContactItem from './ContactItem.vue';
 
 export default {
   name: 'Contacts',
-  props: {
-    name: String,
-    contactList: Array,
+
+  data() {
+    return {
+      contactList: []
+    }
   },
+
+  async mounted() {
+    try {
+      var response = await this.$apiCall({
+        type: 'get',
+        url: '/users'
+      })
+      this.contactList = response.data
+    }
+    catch (e) {
+      return e
+    }
+  },
+
   components: {
     ContactItem
   },
@@ -21,6 +37,7 @@ export default {
 </script>
 
 <style scoped>
+
 #contacts {
     height: 100vh;
     background: #05A6FF;
