@@ -30,6 +30,7 @@
 
           <md-card-actions>
             <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
+            <md-button class="md-primary" @click.prevent="register()">Register</md-button>
           </md-card-actions>
 
           <md-snackbar :md-active.sync="userSaved">The user was saved with success!</md-snackbar>
@@ -73,6 +74,11 @@ export default {
     }
   },
   methods: {
+    register() {
+      console.log('Navigate to register page')
+      // navigate to register page then =>
+      // this.showDialog = false
+    },
     getValidationField (fieldName) {
       const field = this.$v.form[fieldName]
 
@@ -90,23 +96,27 @@ export default {
       }
     },
     async loginUser() {
-      var user = await this.$apiCall({
-        type: 'post',
-        url: '/login',
-        data: {
-          username: this.form.username,
-          password: this.form.password
+      try {
+        var user = await this.$apiCall({
+          type: 'post',
+          url: '/login',
+          data: {
+            username: this.form.username,
+            password: this.form.password
+          }
+        })
+
+        if (user.exist) {
+          console.log(user) // user data here << _id / avatar / username
+          this.showDialog = false
         }
-      })
-
-      if (user.exist) {
-        console.log(user) // user data here << _id / avatar / username
-        this.showDialog = false
+        else {
+          window.alert('Account does not exist')
+        }
       }
-      else {
-        window.alert('Account does not exist')
+      catch (e) {
+        window.alert(e)
       }
-
     }
   }
 }

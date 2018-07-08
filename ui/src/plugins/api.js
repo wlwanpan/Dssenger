@@ -14,13 +14,8 @@ Vue.use({
       var endpoint = `http://${BASE_URL_LOCAL}${url}`
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
-      try {
-        var response = await axios[type](...packet)
-        return response
-      }
-      catch (e) {
-        return e
-      }
+      var response = await axios[type](...packet) // let caller handle error
+      return response
     }
   }
 
