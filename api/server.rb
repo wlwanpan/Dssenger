@@ -76,11 +76,6 @@ class Connection < Sinatra::Base
     @_controller.add_contact id, req_params[:contact_id]
   end
 
-  post '/user/:id/conversations' do |id|
-    req_params = eval request.body.read
-    @_controller.create_conversation id, req_params[:participant_id]
-  end
-
   get '/user/:user_id/conversation/:participant_id' do |user_id, participant_id|
     @_controller.load_messages user_id, participant_id
   end

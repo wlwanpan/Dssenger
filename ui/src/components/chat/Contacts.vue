@@ -13,6 +13,12 @@
           :class="['contact-' + index, index === 0 ? 'selected' : '']"
           :index="index"></contact-item>
       </div>
+      <div v-else-if="loadingContacts">
+        <md-empty-state
+          md-label="Loading ..."
+          md-description="Retrieving your contact list.">
+        </md-empty-state>
+      </div>
       <div v-else>
         <md-empty-state
           md-label="No Contacts"
@@ -37,6 +43,7 @@ export default {
   data() {
     return {
       contactList: [],
+      loadingContacts: false,
       showAddContact: false
     }
   },
@@ -52,6 +59,7 @@ export default {
   },
   methods: {
     async loadContacts() {
+      this.loadingContacts = true
       var response = await this.$apiCall({
         type: 'get',
         url: `/user/${this.user._id}/contacts`
@@ -66,6 +74,7 @@ export default {
           this.$eventBusEmit('update-input-visibility', false);
         }
       }
+      this.loadingContacts = false
     },
     openAddContactDialog() {
       this.showAddContact = true

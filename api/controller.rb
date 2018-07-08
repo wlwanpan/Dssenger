@@ -42,8 +42,17 @@ class Controller
   end
 
   def load_users
-    output = eval @_bluzelle.read 'users'
-    output.to_json
+    users = eval @_bluzelle.read 'users'
+    output =
+      users.each map do |user_id|
+        begin
+          eval @_bluzelle.read user_id
+        rescue
+          nil
+        end
+      end
+
+    output.compact.to_json
   end
 
   def load_contacts user_id
@@ -61,13 +70,6 @@ class Controller
     @_bluzelle.update contact_id, contact_user.to_json
 
     200
-  end
-
-  def create_conversation user_id, participant_id
-    # [:created_at, :created_by, :participant_id, :messageList]
-    attrs = { created_at: Time.now, created_by: user_id, participant_id: participant_id, messageList: [] }
-    new_conversation = @_conversation_collection.create_record attrs
-    new_conversation
   end
 
   def load_messages user_id, participant_id
