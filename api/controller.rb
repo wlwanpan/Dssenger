@@ -9,7 +9,7 @@ class Controller
 
   ENDPOINT = 'testnet-dev.bluzelle.com'
   PORT = 51010
-  UUID = 'b1b8339c-46c1-4cca-9d32-22a03c59e27a' # OLD -> '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # Fixed for now
+  UUID = "d70d748f-9215-4a17-880b-a4576fe9c445" # 'b1b8339c-46c1-4cca-9d32-22a03c59e27a' # OLD -> '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # Fixed for now
 
   def initialize
 

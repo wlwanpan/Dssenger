@@ -13,7 +13,7 @@ Vue.use({
       const BASE_URL_PRODUCTION = '18.220.107.107:80'
       const BASE_URL_LOCAL = 'localhost:4567'
 
-      var endpoint = `http://${BASE_URL_LOCAL}${url}`
+      var endpoint = `http://${BASE_URL_PRODUCTION}${url}`
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
       try {
