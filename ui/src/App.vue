@@ -1,16 +1,19 @@
 <template>
   <div id="app">
+    <login-dialog></login-dialog>
     <chat></chat>
   </div>
 </template>
 
 <script>
 import Chat from './components/Chat.vue'
+import LoginDialog from './dialogs/loginDialog.vue'
 
 export default {
   name: 'app',
   components: {
-    Chat
+    Chat,
+    LoginDialog
   },
 }
 </script>

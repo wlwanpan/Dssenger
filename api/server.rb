@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'sinatra/cross_origin'
+require 'rack/cors'
 require 'json'
+
 require_relative './controller'
 require_relative './helpers/math'
 
@@ -8,6 +10,8 @@ class Connection < Sinatra::Base
   include Math
 
   set reload_templates: false
+
+  set :bind, '0.0.0.0'
 
   configure do
     enable :cross_origin
@@ -40,7 +44,7 @@ class Connection < Sinatra::Base
     {exist: user_exist}.to_json
   end
 
-  post '/user/register' do
+  post '/register' do
     # User attributes: name, email, password(bytes32), avatar(base64)
     password_hash = sha256 params[:password]
     @_controller.create_record('user', {
@@ -48,9 +52,11 @@ class Connection < Sinatra::Base
       })
   end
 
-  post '/user/login' do
+  post '/login' do
     password_hash = sha256 params[:password]
-    @_controller.login password_hash, params[:name]
+    output = @_controller.login password_hash, params[:name]
+    puts output
+    output
   end
 
   get '/users' do

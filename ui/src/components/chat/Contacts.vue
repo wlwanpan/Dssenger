@@ -1,6 +1,13 @@
 <template>
   <div id="contacts">
-    <contact-item v-for="(contact, index) in contactList" :key="index" :contact="contact"></contact-item>
+    <div class="contact-list">
+      <contact-item v-for="(contact, index) in contactList" :key="index" :contact="contact"></contact-item>
+    </div>
+    <div class="contact-actions">
+      <md-button class="md-fab md-primary">
+        <md-icon>add</md-icon>
+      </md-button>
+    </div>
   </div>
 </template>
 

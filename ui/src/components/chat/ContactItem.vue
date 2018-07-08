@@ -1,13 +1,13 @@
 <template>
   <div class="contact-item">
     <div class="contact-item-bubble md-elevation-1">
-        <md-avatar class="md-avatar-icon md-large">
-            <img src="../../assets/avatar.jpg" alt="Avatar">
-        </md-avatar>
-        <div class="contact-item-description">
-            <h3>{{ contact.name }}</h3>
-            <p>Last message text</p>
-        </div>
+      <md-avatar class="md-avatar-icon md-large">
+        <img src="../../assets/avatar.jpg" alt="Avatar">
+      </md-avatar>
+      <div class="contact-item-description">
+        <h3>{{ contact.name }}</h3>
+        <p>Last message text</p>
+      </div>
     </div>
   </div>
 </template>

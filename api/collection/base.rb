@@ -10,14 +10,7 @@ module Collection
 
     def load_collection record_ids
       record_ids ||= []
-
-      record_ids =
-        if record_ids.empty?
-          resp = @_bluzelle.read collection_id
-          parse_response(resp) || []
-        else
-          record_ids
-        end
+      record_ids = record_ids.empty? ? record_ids : record_ids
 
       record_ids.map do |record_id|
         find_record_by_id record_id, VISIBLE_ATTRS
@@ -25,9 +18,7 @@ module Collection
     end
 
     def record_exist? id
-      resp = @_bluzelle.read collection_id
-      collection_ids = parse_response resp
-      return false if collection_ids.nil?
+      collection_ids = record_ids
       collection_ids.include? id
     end
 
@@ -60,11 +51,16 @@ module Collection
       (_ID || '').to_s
     end
 
-    def save_record record_id
+    def record_ids
       resp = @_bluzelle.read collection_id
-      record_ids = parse_response resp
-      record_ids << record_id
-      @_bluzelle.update collection_id, record_ids.to_json
+      return [] if resp == 'RECORD_NOT_FOUND'
+      parse_response(resp) || []
+    end
+
+    def save_record record_id
+      current_record_ids = record_ids
+      current_record_ids << record_id
+      @_bluzelle.update collection_id, current_record_ids.to_json
     end
 
     # Not sure if needs to eval if parsing back to json
@@ -73,6 +69,7 @@ module Collection
     rescue => e
       # Autofixing corrupt db value << Not a good idea to change after
       @_bluzelle.update collection_id, [].to_json
+      nil
     end
 
     def create_record_params attrs

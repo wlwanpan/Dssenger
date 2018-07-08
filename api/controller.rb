@@ -42,7 +42,7 @@ class Controller
   end
 
   def load_users
-    @_user_collection.load_collection
+    @_user_collection.load_collection []
   end
 
   def load_contacts user_id
