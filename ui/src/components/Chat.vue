@@ -2,7 +2,7 @@
   <div id="chat">
     <contacts :user="user"></contacts>
     <div id="message-container">
-      <message-box :conversation="conversation"></message-box>
+      <message-box></message-box>
       <input-box></input-box>
     </div>
     <div id="buffer">
