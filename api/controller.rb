@@ -42,8 +42,8 @@ class Controller
   end
 
   def load_users
-    users = @_user_collection.load_collection []
-    users.to_json
+    output = eval @_bluzelle.read 'users'
+    output.to_json
   end
 
   def load_contacts user_id
