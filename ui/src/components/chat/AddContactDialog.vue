@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     async addToUserContact(contact) {
-
       var response = await this.$apiCall({
         type: 'post',
         url: `/user/${this.user._id}/add-contact`,
@@ -53,14 +52,12 @@ export default {
           contact_id: contact._id
         }
       })
+      this.onClose()
       if (response) {
         this.$eventBusEmit('error', {
           title: 'Sucesss',
           message: 'Contact added!'
         })
-      }
-      else {
-        this.onClose()
       }
     },
     onClose() {
