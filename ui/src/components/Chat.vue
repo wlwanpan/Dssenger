@@ -2,8 +2,11 @@
   <div id="chat">
     <contacts></contacts>
     <div id="message-container">
-      <message-box></message-box>
+      <message-box :conversation="conversation"></message-box>
       <input-box></input-box>
+    </div>
+    <div id="buffer">
+      <p>PLACEHOLDER.. OTHER CONTENT HERE??</p>
     </div>
   </div>
 </template>
@@ -21,7 +24,32 @@ export default {
     MessageBox
   },
   data() {
-    return {}
+    return {
+      conversation: [
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: true},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: true},
+        {timestamp: '12:00', body: 'this is own msg', own: true},
+        {timestamp: '12:01', body: 'this is the reply', own: false},
+        {timestamp: '12:00', body: 'this is own msg', own: false},
+      ],
+      contactList: ['Warren', 'Wawa', 'Neil'] };
   }
 }
 </script>
@@ -34,7 +62,13 @@ export default {
 #message-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 70%;
   justify-content: space-between;
+  height: 100vh;
+}
+
+#buffer {
+  border: 1px solid blue;
+  width: 30%;
 }
 </style>
