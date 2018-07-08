@@ -5,15 +5,19 @@ module Collection
 
     ID = 'users'
     GEN_ID = [:username, :password_hash]
-    ALLOWED_ATTRS = [:username, :email, :password_hash, :contactList, :conversationList, :avatar]
+    ALLOWED_ATTRS = [:username, :email, :contactList, :conversationList, :avatar]
     VISIBLE_ATTRS = [:username, :avatar]
 
+    def load_collection record_ids
+      super record_ids, VISIBLE_ATTRS
+    end
+
     def generate_record_id options
-      base_generate_record_id options, GEN_ID
+      super options, GEN_ID
     end
 
     def create_record options
-      base_create_record attrs, GEN_ID
+      super options, GEN_ID
     end
 
     def load_contacts user_id
@@ -30,6 +34,14 @@ module Collection
 
       conversation_list = load_collection conversation_ids
       conversation_list.to_json
+    end
+
+    def create_record_params attrs
+      super attrs, ALLOWED_ATTRS
+    end
+
+    def collection_id
+      super ID
     end
 
   end

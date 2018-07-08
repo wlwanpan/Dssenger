@@ -8,12 +8,24 @@ module Collection
     ALLOWED_ATTRS = [:timestamp, :sender, :body]
     VISIBLE_ATTRS = [:timestamp, :sender, :body]
 
+    def load_collection record_ids
+      super record_ids, VISIBLE_ATTRS
+    end
+
     def generate_record_id options
-      base_generate_record_id options, GEN_ID
+      super options, GEN_ID
     end
 
     def create_record options
-      base_create_record attrs, GEN_ID
+      super options, GEN_ID
+    end
+
+    def create_record_params attrs
+      super attrs, ALLOWED_ATTRS
+    end
+
+    def collection_id
+      super ID
     end
 
   end

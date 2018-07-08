@@ -8,16 +8,16 @@ module Collection
     ALLOWED_ATTRS = [:participantList, :messageList]
     VISIBLE_ATTRS = [:participantList, :messageList]
 
+    def load_collection record_ids
+      super record_ids, VISIBLE_ATTRS
+    end
+
     def generate_record_id options
-      base_generate_record_id options, GEN_ID
+      super options, GEN_ID
     end
 
     def create_record options
-      base_create_record attrs, GEN_ID
-    end
-
-    def collection_id
-      ID.to_s
+      super options, GEN_ID
     end
 
     def load_messages conversation_id
@@ -27,6 +27,14 @@ module Collection
       message_list = load_collection message_ids
 
       message_list.to_json
+    end
+
+    def create_record_params attrs
+      super attrs, ALLOWED_ATTRS
+    end
+
+    def collection_id
+      super ID
     end
 
   end

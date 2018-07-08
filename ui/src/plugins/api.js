@@ -16,6 +16,7 @@ Vue.use({
 
       var response = await axios[type](...packet) // let caller handle error
       return response
+
     }
   }
 

@@ -8,12 +8,12 @@ module Collection
       @_bluzelle = bluzelle
     end
 
-    def load_collection record_ids
+    def load_collection record_ids, visible_attrs
       record_ids ||= []
       record_ids = record_ids.empty? ? record_ids : record_ids
 
       record_ids.map do |record_id|
-        find_record_by_id record_id, VISIBLE_ATTRS
+        find_record_by_id record_id, visible_attrs
       end
     end
 
@@ -22,15 +22,20 @@ module Collection
       collection_ids.include? id
     end
 
-    def base_create_record attrs, gen_id
-      record_id = generate_record_id attrs, gen_id
+    def create_record attrs, gen_id
+      record_id = generate_record_id attrs
       allowed_attrs = create_record_params attrs
-      if @_bluzelle.create record_id.to_s, allowed_attrs.to_json
-        allowed_attrs[:_id] = record_id
-        save_record record_id
-        allowed_attrs
-      else
-        {error: 'Error saving to bluzelle'}
+      resp = @_bluzelle.create record_id.to_s, allowed_attrs.to_json
+
+      case resp
+        when true
+          allowed_attrs[:_id] = record_id
+          save_record record_id
+          allowed_attrs
+        when 'RECORD_EXISTS'
+          {error: "#{record_id}: already exist"}
+        else
+          {error: 'Error saving to bluzelle'}
       end
     end
 
@@ -48,8 +53,8 @@ module Collection
       filtered_output
     end
 
-    def collection_id
-      (ID || '').to_s
+    def collection_id id
+      (id || '').to_s
     end
 
     def record_ids
@@ -60,6 +65,7 @@ module Collection
 
     def save_record record_id
       current_record_ids = record_ids
+      return if current_record_ids.include? record_id
       current_record_ids << record_id
       @_bluzelle.update collection_id, current_record_ids.to_json
     end
@@ -73,12 +79,12 @@ module Collection
       nil
     end
 
-    def create_record_params attrs
+    def create_record_params attrs, allowed_attrs
       return {} if attrs.nil?
-      attrs.select { |key, value| ALLOWED_ATTRS.include?(key) }
+      attrs.select { |key, value| allowed_attrs.include?(key) }
     end
 
-    def base_generate_record_id attrs, gen_id
+    def generate_record_id attrs, gen_id
       return sha256(SecureRandom.uuid) if gen_id.empty? || attrs.nil?
       allowed_attrs = attrs.map { |key, value| gen_id.include?(key) ? value : nil }
       allowed_attrs_compact = allowed_attrs.compact

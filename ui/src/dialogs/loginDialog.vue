@@ -19,7 +19,7 @@
 
             <md-field :class="getValidationField('password')">
               <label for="email">Password</label>
-              <md-input type="text" name="username" id="username" v-model="form.password" :disabled="sending" />
+              <md-input type="password" name="username" id="username" v-model="form.password" :disabled="sending" />
               <span class="md-error" v-if="!$v.form.password.required">The email is required</span>
               <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid Password</span>
             </md-field>
@@ -106,8 +106,8 @@ export default {
           }
         })
 
-        if (user.exist) {
-          console.log(user) // user data here << _id / avatar / username
+        if (user.data.exist) {
+          console.log(user.data) // user data here << _id / avatar / username
           this.showDialog = false
         }
         else {

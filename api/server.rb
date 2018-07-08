@@ -36,7 +36,10 @@ class Connection < Sinatra::Base
   end
 
   get '/' do
-    200
+    password_hash = sha256 'wawawawa'
+    @_controller.create_record('user', {
+        username: 'wawawawa', email: 'neil@gmail.com', password_hash: password_hash, contactList: [], avatar: ''
+      })
   end
 
   get '/user/:id' do |id|
@@ -48,7 +51,7 @@ class Connection < Sinatra::Base
     # User attributes: name, email, password(bytes32), avatar(base64)
     password_hash = sha256 params[:password]
     @_controller.create_record('user', {
-        name: params[:name], email: params[:email], password_hash: password_hash, contactList: [], avatar: params[:avatar]
+        username: params[:username], email: params[:email], password_hash: password_hash, contactList: [], avatar: params[:avatar]
       })
   end
 
@@ -62,7 +65,7 @@ class Connection < Sinatra::Base
   get '/users' do
     @_controller.load_users
     # Gonna keep fake data till ui is complete
-    [{name: 'Elvin'}, {name: 'Neil'}].to_json
+    [{username: 'Elvin'}, {username: 'Neil'}].to_json
   end
 
   get '/user/:id/contacts' do |id|
@@ -88,7 +91,6 @@ class Connection < Sinatra::Base
 
   post '/' do
     # @_connections.each { |out| out << "#{out}: #{params[:msg]}" }
-    puts 'Post params from here'
     204
   end
 

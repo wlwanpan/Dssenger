@@ -5,7 +5,7 @@
         <img src="../../assets/avatar.jpg" alt="Avatar">
       </md-avatar>
       <div class="contact-item-description">
-        <h3>{{ contact.name }}</h3>
+        <h3>{{ contact.username }}</h3>
         <p>Last message text</p>
       </div>
     </div>
