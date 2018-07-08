@@ -30,12 +30,6 @@ export default {
     InputBox,
     MessageBox
   },
-  data() {
-    return {
-      conversation: [],
-      contactList: ['Warren', 'Wawa', 'Neil']
-    }
-  },
   computed: {
     description() {
       if (this.user && this.user.username) {

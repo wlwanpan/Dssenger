@@ -7,7 +7,11 @@
       />
     <div class="contact-list">
       <div v-if="contactList.length">
-        <contact-item v-for="(contact, index) in contactList" :key="index" :contact="contact"></contact-item>
+        <contact-item v-for="(contact, index) in contactList"
+          :key="index"
+          :contact="contact"
+          :class="['contact-' + index, index === 0 ? 'selected' : '']"
+          :index="index"></contact-item>
       </div>
       <div v-else>
         <md-empty-state

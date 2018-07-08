@@ -5,7 +5,7 @@
     </div>
     <div id="messages">
       <div v-for="(msg, index) in conversation" :key="`msg-${index}`">
-        <div v-if="msg.sender == user._id" class="message-own">
+        <div v-if="msg.sender_id == user._id" class="message-own">
           <div class="message-bubble">
             {{ msg.body }}
           </div>
@@ -39,6 +39,8 @@ export default {
     console.log(this.user._id);
     EventBus.$on('contact-switch', contact => {
       this.username = contact.username;
+
+      this.conversation = [];
       if (this.user._id) {
         this.loadContactConversation(contact);
       }
@@ -57,7 +59,7 @@ export default {
           hour = "0" + hour;
       }
       debugger
-      this.conversation.unshift({ timestamp: hour + ":" + min, body: msg, createdBy: this.user._id });
+      this.conversation.unshift({ created_at: hour + ":" + min, body: msg, sender_id: this.user._id });
 
       // add new line to DB
       this.addMessage(msg, contact);
@@ -75,7 +77,8 @@ export default {
       })
 
       if (response) {
-        this.test = response;
+        console.log(response);
+        this.conversation = response;
       }
     },
     async addMessage(msg, contact) {
@@ -83,7 +86,7 @@ export default {
       let response = await this.$apiCall({
         type: 'post',
         url: `/user/${this.user._id}/conversation/${contact._id}`,
-        data: { message: msg, sender: this.user._id }
+        data: { message: msg }
       })
 
       if (response != '') {
