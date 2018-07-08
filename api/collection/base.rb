@@ -22,8 +22,8 @@ module Collection
       collection_ids.include? id
     end
 
-    def create_record attrs
-      record_id = generate_record_id attrs
+    def base_create_record attrs, gen_id
+      record_id = generate_record_id attrs, gen_id
       allowed_attrs = create_record_params attrs
       if @_bluzelle.create record_id.to_s, allowed_attrs.to_json
         allowed_attrs[:_id] = record_id
@@ -39,16 +39,17 @@ module Collection
       allowed_attrs << :exist
 
       resp = @_bluzelle.read id.to_s
-      output = resp == 'RECORD_NOT_FOUND' ? {exist: false} : parse_response(resp)
-      filtered_output = output.select { |key, value| allowed_attrs.include?(key) }
+      return {exist: false} if resp == 'RECORD_NOT_FOUND'
+
+      parsed_resp = parse_response(resp)
+      filtered_output = parsed_resp.select { |key, value| allowed_attrs.include?(key) }
+      filtered_output[:exist] = true
       filtered_output[:_id] = id
       filtered_output
     end
 
-  private
-
     def collection_id
-      (_ID || '').to_s
+      (ID || '').to_s
     end
 
     def record_ids
@@ -77,9 +78,9 @@ module Collection
       attrs.select { |key, value| ALLOWED_ATTRS.include?(key) }
     end
 
-    def generate_record_id attrs
-      return sha256(SecureRandom.uuid) if GEN_ID.empty? || attrs.nil?
-      allowed_attrs = attrs.map { |key, value| GEN_ID.include?(key) ? value : nil }
+    def base_generate_record_id attrs, gen_id
+      return sha256(SecureRandom.uuid) if gen_id.empty? || attrs.nil?
+      allowed_attrs = attrs.map { |key, value| gen_id.include?(key) ? value : nil }
       allowed_attrs_compact = allowed_attrs.compact
       allowed_attrs_as_str = allowed_attrs_compact.join('')
       sha256(allowed_attrs_as_str)

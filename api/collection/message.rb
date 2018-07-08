@@ -3,12 +3,18 @@ require_relative 'base'
 module Collection
   class Message < Base
 
-    _ID = 'messages'
+    ID = 'messages'
     GEN_ID = []
     ALLOWED_ATTRS = [:timestamp, :sender, :body]
     VISIBLE_ATTRS = [:timestamp, :sender, :body]
 
-    attr_reader :_ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
+    def generate_record_id options
+      base_generate_record_id options, GEN_ID
+    end
+
+    def create_record options
+      base_create_record attrs, GEN_ID
+    end
 
   end
 end

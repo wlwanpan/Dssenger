@@ -3,13 +3,18 @@ require_relative 'base'
 module Collection
   class User < Base
 
-    _ID = 'users'
-    GEN_ID = [:name, :password_hash]
-    ALLOWED_ATTRS = [:name, :email, :password_hash, :contactList, :conversationList, :avatar]
-    VISIBLE_ATTRS = [:name, :avatar]
+    ID = 'users'
+    GEN_ID = [:username, :password_hash]
+    ALLOWED_ATTRS = [:username, :email, :password_hash, :contactList, :conversationList, :avatar]
+    VISIBLE_ATTRS = [:username, :avatar]
 
-    attr_reader :_ID, :GEN_ID, :ALLOWED_ATTRS, :VISIBLE_ATTRS
+    def generate_record_id options
+      base_generate_record_id options, GEN_ID
+    end
 
+    def create_record options
+      base_create_record attrs, GEN_ID
+    end
 
     def load_contacts user_id
       current_user = find_record_by_id user_id, [:contactList]

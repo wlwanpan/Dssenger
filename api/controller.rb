@@ -34,10 +34,10 @@ class Controller
   end
 
   # User specific
-  def login name, password
+  def login username, password_hash
     collection = current_collection 'user'
-    user_id = collection.generate_record_id name: name, password_hash: password_hash
-    user_record = collection.find_record_by_id user_id, [:name, :avatar]
+    user_id = collection.generate_record_id username: username, password_hash: password_hash
+    user_record = collection.find_record_by_id user_id, [:username, :avatar]
     user_record.to_json
   end
 

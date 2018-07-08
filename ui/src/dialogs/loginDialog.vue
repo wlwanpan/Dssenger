@@ -99,7 +99,14 @@ export default {
         }
       })
 
-      console.log(user)
+      if (user.exist) {
+        console.log(user) // user data here << _id / avatar / username
+        this.showDialog = false
+      }
+      else {
+        window.alert('Account does not exist')
+      }
+
     }
   }
 }

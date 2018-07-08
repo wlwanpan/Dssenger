@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/cross_origin'
-require 'rack/cors'
 require 'json'
 
 require_relative './controller'
@@ -9,8 +8,9 @@ require_relative './helpers/math'
 class Connection < Sinatra::Base
   include Math
 
-  set reload_templates: false
+  register Sinatra::CrossOrigin
 
+  set reload_templates: false
   set :bind, '0.0.0.0'
 
   configure do
@@ -18,7 +18,7 @@ class Connection < Sinatra::Base
   end
 
   before do
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = "*"
   end
 
   options "*" do
@@ -53,10 +53,10 @@ class Connection < Sinatra::Base
   end
 
   post '/login' do
-    password_hash = sha256 params[:password]
-    output = @_controller.login password_hash, params[:name]
-    puts output
-    output
+    read_req = eval(request.body.read)
+    return 200 if read_req[:password].nil? or read_req[:username].nil?
+    password_hash = sha256 read_req[:password]
+    @_controller.login read_req[:username], password_hash
   end
 
   get '/users' do
