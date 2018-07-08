@@ -86,7 +86,9 @@ class Connection < Sinatra::Base
   end
 
   post '/user/:user_id/conversations/:participant_id' do |user_id, participant_id|
-    @_controller.post_message user_id, participant_id
+    decoded_req = request.body.read.gsub(/\\u200c/, '')
+    req_params = eval decoded_req
+    @_controller.post_message user_id, participant_id, message: req_params[:message]
   end
 
   get '/stream', provides: 'text/event-stream' do

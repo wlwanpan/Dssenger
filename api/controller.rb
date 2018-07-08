@@ -72,8 +72,18 @@ class Controller
     messages.to_json
   end
 
-  def post_message user_id, participant_id
-    @_conversation_collection
+  def post_message user_id, participant_id, message
+    # [:created_at, :sender_id, :body]
+    attrs = { created_at: Time.now, sender_id: user_id, body: message }
+    new_message = @_message_collection.create_record attrs
+
+    conversation_id = @_conversation_collection.generate_record_id created_by: user_id, participant_id: participant_id
+
+    unless @_conversation_collection.record_exist? conversation_id
+      new_conversation = create_conversation user_id, participant_id
+    end
+    @_conversation_collection.append_to new_conversation[:_id], 'messageList', new_message[:_id]
+
   end
 
 private
