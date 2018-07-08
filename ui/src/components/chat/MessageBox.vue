@@ -21,10 +21,12 @@ import { EventBus } from '../../helper/event-bus.js';
 
 export default {
   name: 'MessageBox',
-  props: {
-    conversation: Array
+  data() {
+      return {
+          conversation: []
+      }
   },
-  created() {
+  mounted() {
     EventBus.$on('post-message', msg => {
       let d = new Date();
       let min = d.getMinutes();

@@ -6,12 +6,13 @@
         v-on:keyup.enter="postMessage()">
     </div>
     <div id="input-button">
-      <md-button v-on:click="postMessage">Send</md-button>
+      <md-button v-on:click="postMessage()">Send</md-button>
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from '../../helper/event-bus.js'
 
 export default {
   name: 'Input',
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     async postMessage() {
-      if (this.msg !== "") {
+      if (this.msg === "") {
         return
       }
       try {
@@ -41,7 +42,7 @@ export default {
           debugger
         }
 
-        this.$eventBusEmit('post-message', this.msg)
+      EventBus.$emit('post-message', this.msg);
       }
       catch (e) {
         debugger

@@ -2,7 +2,7 @@
   <div id="chat">
     <contacts></contacts>
     <div id="message-container">
-      <message-box :conversation="conversation"></message-box>
+      <message-box></message-box>
       <input-box></input-box>
     </div>
     <div id="buffer">
@@ -23,11 +23,6 @@ export default {
     InputBox,
     MessageBox
   },
-  data() {
-    return {
-      conversation: [],
-      contactList: ['Warren', 'Wawa', 'Neil'] };
-  }
 }
 </script>
 
