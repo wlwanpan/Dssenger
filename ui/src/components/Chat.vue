@@ -2,8 +2,8 @@
   <div id="chat">
     <contacts :user="user"></contacts>
     <div id="message-container">
-      <message-box></message-box>
-      <input-box></input-box>
+      <message-box :user="user"></message-box>
+      <input-box :user="user"></input-box>
     </div>
     <div id="buffer">
       <p>PLACEHOLDER.. OTHER CONTENT HERE??</p>

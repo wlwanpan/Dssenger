@@ -1,12 +1,11 @@
 <template>
-  <div class="contact-item">
+  <div class="contact-item" @click="onClick">
     <div class="contact-item-bubble md-elevation-1">
       <md-avatar class="md-avatar-icon md-large">
-        <img src="../../assets/avatar.jpg" alt="Avatar">
+        <img :src="contact.avatar" alt="Avatar">
       </md-avatar>
       <div class="contact-item-description">
         <h3>{{ contact.username }}</h3>
-        <p>Last message text</p>
       </div>
     </div>
   </div>
@@ -15,6 +14,11 @@
 <script>
 export default {
   name: 'ContactItem',
+  methods: {
+    onClick() {
+      this.$emit('on-click')
+    }
+  },
   props: {
     contact: Object
   }

@@ -26,10 +26,9 @@ export default {
         return
       }
 
-      // fix here
       var response = await this.$apiCall({
         type: 'post',
-        url: `users/conversations/${asdf}/message`,
+        url: `users/conversations/${this.user._id}/message`,
         data: {
           body: this.msg
         }
@@ -40,6 +39,9 @@ export default {
 
       this.msg = ""
     }
+  },
+  props: {
+    user: Object
   }
 }
 </script>

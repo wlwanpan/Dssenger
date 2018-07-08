@@ -21,11 +21,28 @@ module Collection
 
     def load_contacts user_id
       current_user = find_record_by_id user_id, [:contactList]
-      contact_ids = current_user[:contractList]
+      contact_ids = current_user[:contactList]
 
-      return [].to_json if contact_ids.nil? || contact_ids.empty?
-      contact_list = load_collection contact_ids
-      contact_list.to_json
+      return [] if contact_ids.nil? || contact_ids.empty?
+      load_collection contact_ids
+    end
+
+    def add_contact user_id, contact_id
+      current_user = @_bluzelle.read user_id
+      current_user = parse_response current_user
+
+      contact_ids = current_user[:contractList]
+      contact_ids = [] if contact_ids.nil? || contact_ids.empty?
+
+      p contact_ids
+      if contact_ids.include? contact_id
+        return {error: 'User already added.'}
+      end
+
+      contact_ids << contact_id
+      current_user[:contactList] = contact_ids
+      output = @_bluzelle.update user_id, current_user.to_json
+      output
     end
 
     def load_conversations user_id

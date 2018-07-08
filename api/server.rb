@@ -66,8 +66,13 @@ class Connection < Sinatra::Base
   end
 
   get '/user/:id/contacts' do |id|
-    p id
     @_controller.load_contacts id
+  end
+
+  post '/user/:id/add-contact' do |id|
+    req_params = eval request.body.read
+    return {error: 'Missing Parameter'}.to_json if req_params[:contact_id].nil?
+    @_controller.add_contact id, req_params[:contact_id]
   end
 
   get '/user/:id/conversations' do |id|

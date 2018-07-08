@@ -47,7 +47,12 @@ class Controller
   end
 
   def load_contacts user_id
-    @_user_collection.load_contacts user_id
+    contacts = @_user_collection.load_contacts user_id
+    contacts.to_json
+  end
+
+  def add_contact user_id, contact_id
+    @_user_collection.add_contact user_id, contact_id
   end
 
   def load_conversations user_id

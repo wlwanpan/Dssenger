@@ -18,7 +18,7 @@
 
 <script>
 import ContactItem from './ContactItem'
-import AddContactDialog from '../../dialogs/addContactDialog'
+import AddContactDialog from './AddContactDialog'
 
 export default {
   name: 'Contacts',
@@ -34,7 +34,7 @@ export default {
     }
   },
   watch: {
-    user(newVal, oldVal) {
+    user() {
       this.loadContacts()
     }
   },
