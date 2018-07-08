@@ -5,7 +5,7 @@
     </div>
     <div id="messages">
       <div v-for="(msg, index) in conversation" :key="`msg-${index}`">
-        <div v-if="msg.own" class="message-own">
+        <div v-if="msg.sender == user._id" class="message-own">
           <div class="message-bubble">
             {{ msg.body }}
           </div>
@@ -32,21 +32,21 @@ export default {
   data() {
       return {
           username: "",
-          test: "",
           conversation: []
       }
   },
   async mounted() {
+    console.log(this.user._id);
     EventBus.$on('contact-switch', contact => {
       this.username = contact.username;
-      console.log(this.user);
       if (this.user._id) {
-        this.loadContactConversation();
-        console.log(this.test);
+        this.loadContactConversation(contact);
       }
     });
 
-    EventBus.$on('post-message', msg => {
+    EventBus.$on('post-message', data => {
+      let msg = data.msg;
+      let contact = data.contact;
       let d = new Date();
       let min = d.getMinutes();
       if (min < 10) {
@@ -56,21 +56,41 @@ export default {
       if (hour < 10) {
           hour = "0" + hour;
       }
-      this.conversation.unshift({timestamp: hour + ":" + min, body: msg, own: true});
+      debugger
+      this.conversation.unshift({ timestamp: hour + ":" + min, body: msg, createdBy: this.user._id });
+
+      // add new line to DB
+      this.addMessage(msg, contact);
     });
 
     let objDiv = document.getElementById("messages");
     objDiv.scrollTop = objDiv.scrollHeight;
   },
   methods: {
-    async loadContactConversation() {
+    async loadContactConversation(contact) {
+      debugger
       var response = await this.$apiCall({
         type: 'get',
-        url: `/user/${this.user._id}/contacts`
+        url: `/user/${this.user._id}/conversation/${contact._id}`
       })
 
       if (response) {
         this.test = response;
+      }
+    },
+    async addMessage(msg, contact) {
+      debugger
+      let response = await this.$apiCall({
+        type: 'post',
+        url: `/user/${this.user._id}/conversation/${contact._id}`,
+        data: { message: msg, sender: this.user._id }
+      })
+
+      if (!response) {
+        this.$eventBusEmit('error', {
+          title: 'Message',
+          message: 'Message could not be added'
+        })
       }
     }
   }
