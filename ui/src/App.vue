@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <login-dialog
-      :showDialog="showLoginDialog"
-      @close-dialog="showLoginDialog = false"
-      @show-register-dialog="switchDialog" />
+      :showDialog="showDialog[0]"
+      @close-dialog="closeAll"
+      @show-register-dialog="switchTo(1)" />
 
     <register-dialog
-      @close-dialog="switchDialog"
-      :showDialog="registerLoginDialog" />
+      @close-dialog="switchTo(0)"
+      :showDialog="showDialog[1]" />
 
     <error-dialog
       @close-dialog="resetError"
       :title="error.title"
       :message="error.message"
-      :showDialog="hasError"
+      :showDialog="showDialog[2]"
       />
 
     <chat></chat>
@@ -31,8 +31,8 @@ export default {
   name: 'app',
   data() {
     return {
-      showLoginDialog: true,
-      registerLoginDialog: false,
+      showDialog: [true, false, false],
+      prevDialog: [],
       error: {
         title: null,
         message: null
@@ -44,30 +44,38 @@ export default {
     }
   },
   computed: {
-    hasError() {
-      return Boolean(this.error.title && this.error.message)
-    }
   },
   mounted() {
     EventBus.$on('error', ({ title, message }) => {
       this.error.title = title
       this.error.message = message
+      this.showError()
     })
   },
   methods: {
-    switchDialog() {
-      this.registerLoginDialog = !this.registerLoginDialog
-      this.showLoginDialog = !this.showLoginDialog
+    switchTo(dialogIndex) {
+      var output = [false, false, false]
+      output[dialogIndex] = true
+      this.showDialog = output
     },
     resetError() {
       this.error.title = null
       this.error.message = null
+      this.showDialog = this.prevDialog
+    },
+    showError() {
+      this.prevDialog = this.showDialog
+      this.showDialog = [false, false, true]
+    },
+    closeAll() {
+      this.showDialog = [false, false, false]
     }
   },
   components: {
     Chat,
     LoginDialog,
-    RegisterDialog
+    RegisterDialog,
+    ErrorDialog
   },
 }
 </script>

@@ -1,13 +1,18 @@
 <template>
   <div>
-    <md-dialog-confirm
-      :md-active.sync="showDialog"
-      :md-title="title"
-      :md-content="message"
-      md-confirm-text="Ok"
-      @md-confirm="onClose" />
+    <md-dialog
+      :md-click-outside-to-close='false'
+      :md-active.sync="showDialog">
+      <md-dialog-title>{{ title }}</md-dialog-title>
 
-    <md-button class="md-primary md-raised" @click="onClose">Ok</md-button>
+      <md-dialog-content>
+        {{ message }}
+      </md-dialog-content>
+
+      <md-card-actions>
+        <md-button class="md-primary" @click="onClose()">Close</md-button>
+      </md-card-actions>
+    </md-dialog>
   </div>
 </template>
 
