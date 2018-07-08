@@ -25,30 +25,7 @@ export default {
   },
   data() {
     return {
-      conversation: [
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: true},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: true},
-        {timestamp: '12:00', body: 'this is own msg', own: true},
-        {timestamp: '12:01', body: 'this is the reply', own: false},
-        {timestamp: '12:00', body: 'this is own msg', own: false},
-      ],
+      conversation: [],
       contactList: ['Warren', 'Wawa', 'Neil'] };
   }
 }

@@ -17,20 +17,41 @@
 
 
 <script>
+import { EventBus } from '../../helper/event-bus.js';
+
 export default {
   name: 'MessageBox',
   props: {
     conversation: Array
   },
+  created() {
+        EventBus.$on('post-message', msg => {
+            let d = new Date();
+            let min = d.getMinutes();
+            if (min < 10) {
+                min = "0" + min;
+            }
+            let hour = d.getHours();
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            this.conversation.unshift({timestamp: hour + ":" + min, body: msg, own: true});
+        });
+
+        let objDiv = document.getElementById("message-box");
+        objDiv.scrollTop = objDiv.scrollHeight;
+  }
 }
 </script>
 
 <style scoped>
 #message-box {
-    margin-top: 10px;
+    margin: 10px 0;
     width: 100%;
     height: 90%;
     overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .message-bubble {

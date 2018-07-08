@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueMaterial from 'vue-material'
+export const EventBus = new Vue();
 
 import './plugins/api.js'
 

@@ -1,20 +1,27 @@
 <template>
   <div id="input-container">
     <div id="input-text">
-      <input type="text" name="input-text-box" placeholder="Type a message">
+      <input type="text" id="input-text-box" name="input-text-box" placeholder="Type a message" v-on:keyup.enter="postMessage($event.target.value)">
     </div>
     <div id="input-button">
-      <md-button>Send</md-button>
+      <md-button v-on:click="postMessage">Send</md-button>
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from '../../helper/event-bus.js';
+
 export default {
   name: 'Input',
-  data: () => ({
-    autogrow: null
-  })
+  methods: {
+    postMessage: function(msg) {
+        if (msg !== "") {
+          EventBus.$emit('post-message', msg);
+          document.getElementById('input-text-box').value = "";
+        }
+    },
+  }
 }
 </script>
 
