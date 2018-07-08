@@ -30,4 +30,8 @@ export default {
   overflow: hidden;
 }
 
+*:focus {
+    outline: none;
+}
+
 </style>
