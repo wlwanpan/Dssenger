@@ -44,7 +44,7 @@ class Controller
   def load_users
     users = eval @_bluzelle.read 'users'
     output =
-      users.each map do |user_id|
+      users.map do |user_id|
         begin
           eval @_bluzelle.read user_id
         rescue
