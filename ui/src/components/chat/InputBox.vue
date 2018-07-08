@@ -1,5 +1,5 @@
 <template>
-  <div id="input-container">
+  <div v-if="visible" id="input-container">
     <div id="input-text">
       <input type="text" id="input-text-box" name="input-text-box" placeholder="Type a message"
         v-model="msg"
@@ -12,13 +12,20 @@
 </template>
 
 <script>
+import { EventBus } from '../../helper/event-bus.js';
 
 export default {
   name: 'Input',
   data() {
     return {
+      visible: true,
       msg: ""
     }
+  },
+  mounted() {
+    EventBus.$on('update-input-visibility', val => {
+      this.visible = val;
+    });
   },
   methods: {
     async postMessage() {

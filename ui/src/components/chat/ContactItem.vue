@@ -1,6 +1,6 @@
 <template>
-  <div class="contact-item" @click="onClick">
-    <div class="contact-item-bubble md-elevation-1">
+  <div class="contact-item">
+    <div class="contact-item-bubble md-elevation-1" v-on:click="contactSwitch()">
       <md-avatar class="md-avatar-icon md-large">
         <img :src="contact.avatar" alt="Avatar">
       </md-avatar>
@@ -15,13 +15,14 @@
 export default {
   name: 'ContactItem',
   methods: {
-    onClick() {
+    contactSwitch: function() {
       this.$emit('on-click')
+      this.$eventBusEmit('contact-switch', this.contact);
     }
   },
   props: {
     contact: Object
-  }
+  },
 }
 </script>
 
@@ -41,6 +42,10 @@ export default {
     margin: 0 0 5px 0;
     background: #238CC5;
     display: flex;
+}
+
+.contact-item-bubble:hover {
+  cursor: pointer;
 }
 
 .md-avatar {

@@ -54,6 +54,13 @@ export default {
       })
       if (response) {
         this.contactList = response
+        if (this.contactList.length > 0) {
+          // open convo of first contact in list
+          this.$eventBusEmit('contact-switch', this.contactList[0]);
+        } else {
+          // set input box to invisible if no user
+          this.$eventBusEmit('update-input-visibility', false);
+        }
       }
     },
     openAddContactDialog() {
