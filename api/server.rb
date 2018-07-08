@@ -70,13 +70,19 @@ class Connection < Sinatra::Base
   end
 
   post '/user/:id/add-contact' do |id|
-    req_params = eval request.body.read
+    decoded_req = request.body.read.gsub(/\\u200c/, '')
+    req_params = eval decoded_req
     return {error: 'Missing Parameter'}.to_json if req_params[:contact_id].nil?
     @_controller.add_contact id, req_params[:contact_id]
   end
 
   get '/user/:id/conversations' do |id|
     @_controller.load_conversations id
+  end
+
+  post 'user/:id/conversations' do |id|
+    req_params = eval request.body.read
+    @_controller.create_conversation id, req_params[:participant_id]
   end
 
   post '/users/conversations/:id' do |id|

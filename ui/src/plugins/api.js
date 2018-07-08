@@ -18,24 +18,22 @@ Vue.use({
 
       try {
         var response = await axios[type](...packet)
+        console.log('From API -> response:')
+        console.log(response)
         if (response.data.error) {
           EventBus.$emit('error', {
             title: 'Oups, error!',
             message: response.data.error
           })
+          return undefined
         }
         else {
           return response.data
         }
       }
       catch (e) {
-        EventBus.$emit('error', {
-          title: 'Server error!',
-          message: e
-        })
+        return e
       }
-
-      return false
     }
 
     _vue.prototype.$eventBusEmit = (eventName, data) => {

@@ -46,7 +46,7 @@ module Collection
       resp = @_bluzelle.read id.to_s
       return {error: "#{collection_name} does not exist"} if resp == 'RECORD_NOT_FOUND'
 
-      parsed_resp = parse_response(resp)
+      parsed_resp = parse_response(resp) || {}
       filtered_output = parsed_resp.select { |key, value| allowed_attrs.include?(key) }
       filtered_output[:_id] = id
       p filtered_output
@@ -94,6 +94,24 @@ module Collection
 
     def collection_name
       @_collection_key.capitalize[0...-1]
+    end
+
+    def append_to id, attr_name, record_id
+      current_record = @_bluzelle.read id
+      current_record = parse_response current_record
+      return {error: "#{attr_name.capitalize} doest not exist"} if current_record.nil?
+
+      collection_ids = current_record[attr_name.to_sym]
+      collection_ids = [] if collection_ids.nil? || collection_ids.empty?
+      return {error: "#{attr_name.capitalize} already added."} if collection_ids.include? record_id
+
+      collection_ids << record_id
+      current_record[attr_name.to_sym] = collection_ids
+      if @_bluzelle.update id, current_record.to_json
+        true
+      else
+        {error: "Error adding #{attr_name.capitalize}"}
+      end
     end
 
   end

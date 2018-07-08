@@ -52,7 +52,19 @@ class Controller
   end
 
   def add_contact user_id, contact_id
-    @_user_collection.add_contact user_id, contact_id
+    result = @_user_collection.add_contact user_id, contact_id
+    if result == true
+      {status: true}
+    else
+      result.to_json
+    end
+  end
+
+  def create_conversation user_id, participant_id
+    # [:created_at, :created_by, :participant_id, :messageList]
+    attrs = { created_at: Time.now, created_by: user_id, participant_id: participant_id, messageList: [] }
+    new_conversation = @_conversation_collection.create_record attrs
+    new_conversation
   end
 
   def load_conversations user_id
