@@ -52,12 +52,15 @@ class Controller
   end
 
   def add_contact user_id, contact_id
-    result = @_user_collection.add_contact user_id, contact_id
-    if result == true
-      {status: true}
-    else
-      result.to_json
-    end
+    current_user = eval @_bluzelle.read(user_id).gsub(/\\u200c/, '')
+    current_user[:contactList] << contact_id
+    @_bluzelle.update user_id, current_user.to_json
+
+    contact_user = eval @_bluzelle.read(contact_id).gsub(/\\u200c/, '')
+    contact_user[:contactList] << user_id
+    @_bluzelle.update contact_id, contact_user.to_json
+
+    200
   end
 
   def create_conversation user_id, participant_id
@@ -110,7 +113,8 @@ class Controller
     new_message = {
       created_at: Time.now,
       sender_id: user_id,
-      receiver_id: participant_id
+      receiver_id: participant_id,
+      body: message
     }
     @_bluzelle.create generated_message_id, new_message.to_json # created new message
 
