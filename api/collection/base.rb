@@ -71,7 +71,7 @@ module Collection
 
     # Not sure if needs to eval if parsing back to json
     def parse_response resp
-      eval(resp)
+      eval resp
     rescue => e
       # Autofixing corrupt db value << Not a good idea to change after
       @_bluzelle.update collection_id, [].to_json

@@ -20,7 +20,7 @@ module Collection
     end
 
     def load_messages user_id, participant_id
-      conversation_id = generate_record_id create_by: user_id, participant_id: participant_id
+      conversation_id = generate_record_id created_by: user_id, participant_id: participant_id
 
       current_conversation = find_record_by_id conversation_id, [:messageList]
 

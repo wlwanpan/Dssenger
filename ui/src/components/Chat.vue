@@ -46,7 +46,6 @@ export default {
       }
     },
     userAvatar() {
-      console.log(this.user.avatar)
       if (this.user && this.user.avatar) {
         return this.user.avatar
       }

@@ -9,7 +9,7 @@ class Controller
 
   ENDPOINT = 'testnet-dev.bluzelle.com'
   PORT = 51010
-  UUID = '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # Fixed for now
+  UUID = 'b1b8339c-46c1-4cca-9d32-22a03c59e27a' # OLD -> '9cec813e-8191-11e8-adc0-fa7ae01bbebc' # Fixed for now
 
   def initialize
 
@@ -68,22 +68,70 @@ class Controller
   end
 
   def load_messages user_id, participant_id
-    messages = @_conversation_collection.load_messages user_id, participant_id
-    messages.to_json
+    bluzelle_keys = @_bluzelle.keys
+    generated_conversation_id1 = Digest::SHA2.hexdigest(user_id + participant_id).to_s
+    generated_conversation_id2 = Digest::SHA2.hexdigest(participant_id + user_id).to_s
+
+    generated_conversation_id =
+      if bluzelle_keys.include?(generated_conversation_id1) then generated_conversation_id1
+      else generated_conversation_id2
+      end
+
+    return [].to_json unless bluzelle_keys.include?(generated_conversation_id) # no conversation ongoing
+
+    current_conversation = eval @_bluzelle.read(generated_conversation_id)
+
+    messages =
+      current_conversation[:messageList].map do |message_id|
+        begin
+          eval @_bluzelle.read(message_id)
+        rescue
+          nil
+        end
+      end
+
+    messages.compact.to_json
   end
 
   def post_message user_id, participant_id, message
-    # [:created_at, :sender_id, :body]
-    attrs = { created_at: Time.now, sender_id: user_id, body: message }
-    new_message = @_message_collection.create_record attrs
+    bluzelle_keys = @_bluzelle.keys
+    generated_conversation_id1 = Digest::SHA2.hexdigest(user_id + participant_id).to_s
+    generated_conversation_id2 = Digest::SHA2.hexdigest(participant_id + user_id).to_s
 
-    conversation_id = @_conversation_collection.generate_record_id created_by: user_id, participant_id: participant_id
+    generated_conversation_id =
+      if bluzelle_keys.include? generated_conversation_id1 then generated_conversation_id1
+      else generated_conversation_id2
+      end
 
-    unless @_conversation_collection.record_exist? conversation_id
-      new_conversation = create_conversation user_id, participant_id
+    generated_message_id = SecureRandom.uuid.to_s
+
+    # Message attributes
+    # [:created_at, :sender_id, :body, :receiver_id]
+    new_message = {
+      created_at: Time.now,
+      sender_id: user_id,
+      receiver_id: participant_id
+    }
+    @_bluzelle.create generated_message_id, new_message.to_json # created new message
+
+    if bluzelle_keys.include? generated_conversation_id
+      # conversation exist
+      current_conversation = eval @_bluzelle.read(generated_conversation_id)
+      current_conversation[:messageList] << generated_message_id
+      @_bluzelle.update generated_conversation_id, current_conversation.to_json
+    else
+      # conversation new: -> attributes
+      # [:created_at, :created_by, :participant_id, :messageList]
+      new_conversation = {
+        created_at: Time.now,
+        created_by: user_id,
+        participant_id: participant_id,
+        messageList: [generated_message_id]
+      }
+      @_bluzelle.create generated_conversation_id, new_conversation.to_json
     end
-    @_conversation_collection.append_to new_conversation[:_id], 'messageList', new_message[:_id]
 
+    200
   end
 
 private

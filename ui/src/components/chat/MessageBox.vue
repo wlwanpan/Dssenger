@@ -79,14 +79,14 @@ export default {
       }
     },
     async addMessage(msg, contact) {
-      debugger
+
       let response = await this.$apiCall({
         type: 'post',
         url: `/user/${this.user._id}/conversation/${contact._id}`,
         data: { message: msg, sender: this.user._id }
       })
 
-      if (!response) {
+      if (response != '') {
         this.$eventBusEmit('error', {
           title: 'Message',
           message: 'Message could not be added'
