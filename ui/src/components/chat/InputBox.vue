@@ -18,6 +18,7 @@ export default {
   name: 'Input',
   data() {
     return {
+      currentContact: Object,
       visible: true,
       msg: ""
     }
@@ -25,6 +26,9 @@ export default {
   mounted() {
     EventBus.$on('update-input-visibility', val => {
       this.visible = val;
+    });
+    EventBus.$on('contact-switch', contact => {
+      this.currentContact = contact;
     });
   },
   methods: {
@@ -35,13 +39,13 @@ export default {
 
       var response = await this.$apiCall({
         type: 'post',
-        url: `users/conversations/${this.user._id}/message`,
+        url: `user/${this.user._id}/conversation/${this.currentContact._id}/message`,
         data: {
           body: this.msg
         }
       })
       if (response) {
-        this.$eventBusEmit('post-message', this.msg)
+        this.$eventBusEmit('post-message', {msg: this.msg, contact: this.currentContact})
       }
 
       this.msg = ""

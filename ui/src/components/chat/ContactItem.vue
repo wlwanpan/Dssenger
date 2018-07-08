@@ -1,6 +1,7 @@
 <template>
   <div class="contact-item">
-    <div class="contact-item-bubble md-elevation-1" v-on:click="contactSwitch()">
+    <div class="contact-item-bubble md-elevation-1"
+    v-on:click.prevent="contactSwitch()">
       <md-avatar class="md-avatar-icon md-large">
         <img :src="contact.avatar" alt="Avatar">
       </md-avatar>
