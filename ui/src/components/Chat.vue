@@ -68,7 +68,7 @@ export default {
 }
 
 #buffer {
-  border: 1px solid blue;
+  border-left: 1px solid #E5E5E5;
   width: 30%;
 }
 </style>

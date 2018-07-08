@@ -58,4 +58,8 @@ export default {
   background: rgba(0,0,0,.8) !important;
 }
 
+*:focus {
+  outline: none;
+}
+
 </style>
