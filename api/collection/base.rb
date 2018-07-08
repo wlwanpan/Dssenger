@@ -49,7 +49,6 @@ module Collection
       parsed_resp = parse_response(resp) || {}
       filtered_output = parsed_resp.select { |key, value| allowed_attrs.include?(key) }
       filtered_output[:_id] = id
-      p filtered_output
       filtered_output
     end
 

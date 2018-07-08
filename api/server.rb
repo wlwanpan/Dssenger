@@ -76,21 +76,17 @@ class Connection < Sinatra::Base
     @_controller.add_contact id, req_params[:contact_id]
   end
 
-  get '/user/:id/conversations' do |id|
-    @_controller.load_conversations id
-  end
-
-  post 'user/:id/conversations' do |id|
+  post '/user/:id/conversations' do |id|
     req_params = eval request.body.read
     @_controller.create_conversation id, req_params[:participant_id]
   end
 
-  post '/users/conversations/:id' do |id|
-    @_controller.load_messages id
+  get '/user/:user_id/conversation/:participant_id' do |user_id, participant_id|
+    @_controller.load_messages user_id, participant_id
   end
 
-  post 'users/conversations/:id/message' do |id|
-    @_controller.post_message id
+  post '/user/:user_id/conversations/:participant_id' do |user_id, participant_id|
+    @_controller.post_message user_id, participant_id
   end
 
   get '/stream', provides: 'text/event-stream' do

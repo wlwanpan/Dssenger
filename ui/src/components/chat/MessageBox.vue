@@ -56,7 +56,6 @@ export default {
       if (hour < 10) {
           hour = "0" + hour;
       }
-      debugger
       this.conversation.unshift({timestamp: hour + ":" + min, body: msg, own: true});
     });
 
@@ -65,7 +64,6 @@ export default {
   },
   methods: {
     async loadContactConversation() {
-      debugger
       var response = await this.$apiCall({
         type: 'get',
         url: `/user/${this.user._id}/contacts`

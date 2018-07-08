@@ -39,7 +39,7 @@
 
           <md-field>
             <label for="avatar">Upload Avatar</label>
-            <md-file v-model="avatar" accept="image/*" @change="convertAvatar"/>
+            <md-file v-model="form.avatar" accept="image/*" @change="convertAvatar"/>
           </md-field>
 
           <md-card-actions>

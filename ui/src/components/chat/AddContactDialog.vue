@@ -33,7 +33,7 @@ export default {
       url: '/users'
     })
 
-    if (response) {
+    if (response && response instanceof Array) {
       this.contactList = response
     }
   },
@@ -55,7 +55,7 @@ export default {
       this.onClose()
       if (response) {
         this.$eventBusEmit('error', {
-          title: 'Sucesss',
+          title: 'Success',
           message: 'Contact added!'
         })
       }

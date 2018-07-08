@@ -67,12 +67,13 @@ class Controller
     new_conversation
   end
 
-  def load_conversations user_id
-    @_user_collection.load_conversations user_id
+  def load_messages user_id, participant_id
+    messages = @_conversation_collection.load_messages user_id, participant_id
+    messages.to_json
   end
 
-  def load_messages conversation_id
-    @_conversation_collection.load_messages conversation_id
+  def post_message user_id, participant_id
+    @_conversation_collection
   end
 
 private
