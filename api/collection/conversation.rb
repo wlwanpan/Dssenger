@@ -3,10 +3,9 @@ require_relative 'base'
 module Collection
   class Conversation < Base
 
-    ID = 'conversations'
     GEN_ID = []
-    ALLOWED_ATTRS = [:participantList, :messageList]
-    VISIBLE_ATTRS = [:participantList, :messageList]
+    ALLOWED_ATTRS = [:created_at, :created_by, :participantList, :messageList]
+    VISIBLE_ATTRS = [:created_at, :created_by, :participantList, :messageList]
 
     def load_collection record_ids
       super record_ids, VISIBLE_ATTRS
@@ -31,10 +30,6 @@ module Collection
 
     def create_record_params attrs
       super attrs, ALLOWED_ATTRS
-    end
-
-    def collection_id
-      super ID
     end
 
   end

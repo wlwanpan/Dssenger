@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 
+import { EventBus } from '../helper/event-bus'
+
 Vue.use({
 
   install(_vue) {
@@ -9,15 +11,19 @@ Vue.use({
 
       // To configure webpack for process.ENV -> check local vs production
       const BASE_URL_PRODUCTION = '18.220.107.107:80'
-      // const BASE_URL_LOCAL = 'localhost:4567'
+      const BASE_URL_LOCAL = 'localhost:4567'
 
-      var endpoint = `http://${BASE_URL_PRODUCTION}${url}`
+      var endpoint = `http://${BASE_URL_LOCAL}${url}`
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
       var response = await axios[type](...packet) // let caller handle error
       console.log(response)
       return response
 
+    }
+
+    _vue.prototype.$eventBusEmit = (eventName, data) => {
+      EventBus.$emit(eventName, data)
     }
   }
 

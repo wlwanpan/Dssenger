@@ -1,16 +1,16 @@
 <template>
   <div id="message-box">
     <div v-for="(msg, index) in conversation" :key="`msg-${index}`">
-        <div v-if="msg.own" class="message-own">
-            <div class="message-bubble">
-                {{ msg.body }}
-            </div>
+      <div v-if="msg.own" class="message-own">
+        <div class="message-bubble">
+          {{ msg.body }}
         </div>
-        <div v-else class="message-response">
-            <div class="message-bubble">
-                {{ msg.body }}
-            </div>
+      </div>
+      <div v-else class="message-response">
+        <div class="message-bubble">
+          {{ msg.body }}
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,21 +25,22 @@ export default {
     conversation: Array
   },
   created() {
-        EventBus.$on('post-message', msg => {
-            let d = new Date();
-            let min = d.getMinutes();
-            if (min < 10) {
-                min = "0" + min;
-            }
-            let hour = d.getHours();
-            if (hour < 10) {
-                hour = "0" + hour;
-            }
-            this.conversation.unshift({timestamp: hour + ":" + min, body: msg, own: true});
-        });
+    EventBus.$on('post-message', msg => {
+      let d = new Date();
+      let min = d.getMinutes();
+      if (min < 10) {
+          min = "0" + min;
+      }
+      let hour = d.getHours();
+      if (hour < 10) {
+          hour = "0" + hour;
+      }
+      debugger
+      this.conversation.unshift({timestamp: hour + ":" + min, body: msg, own: true});
+    });
 
-        let objDiv = document.getElementById("message-box");
-        objDiv.scrollTop = objDiv.scrollHeight;
+    let objDiv = document.getElementById("message-box");
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
 }
 </script>

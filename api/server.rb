@@ -36,21 +36,13 @@ class Connection < Sinatra::Base
   end
 
   get '/' do
-    password_hash = sha256 'wawawawa'
-    @_controller.create_record('user', {
-        username: 'wawawawa', email: 'neil@gmail.com', password_hash: password_hash, contactList: [], avatar: ''
-      })
-  end
-
-  get '/user/:id' do |id|
-    user_exist = @_controller.record_exist? 'user', id
-    {exist: user_exist}.to_json
+    200
   end
 
   post '/register' do
     decoded_req = request.body.read.gsub(/\\u200c/, '')
     req_params = eval decoded_req
-    return 200 if req_params[:password].nil? || req_params[:email].nil?
+    return {error: 'Missing Parameters'}.to_json if req_params[:password].nil? || req_params[:email].nil? || req_params[:username].nil?
     password_hash = sha256 req_params[:password]
     @_controller.create_record('user', {
         username: req_params[:username], email: req_params[:email], password_hash: password_hash, contactList: [], avatar: ''
@@ -59,9 +51,14 @@ class Connection < Sinatra::Base
 
   post '/login' do
     req_params = eval request.body.read
-    return 200 if req_params[:password].nil? or req_params[:username].nil?
+    return {error: 'Missing Parameters'}.to_json if req_params[:password].nil? or req_params[:username].nil?
     password_hash = sha256 req_params[:password]
     @_controller.login req_params[:username], password_hash
+  end
+
+  get '/user/:id' do |id|
+    user_exist = @_controller.record_exist? 'user', id
+    {exist: user_exist}.to_json
   end
 
   get '/users' do
@@ -78,6 +75,10 @@ class Connection < Sinatra::Base
 
   post '/users/conversations/:id' do |id|
     @_controller.load_messages id
+  end
+
+  post 'users/conversations/:id/message' do |id|
+    @_controller.post_message id
   end
 
   get '/stream', provides: 'text/event-stream' do

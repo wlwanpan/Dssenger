@@ -108,15 +108,21 @@ export default {
           }
         })
 
-        if (response.data.exist) {
-          this.$emit('close-dialog')
+        if (response.data.error) {
+          this.$eventBusEmit('error', {
+            title: 'Login Error!',
+            message: response.data.error
+          })
         }
         else {
-          window.alert('Account does not exist')
+          this.$emit('close-dialog')
         }
       }
       catch (e) {
-        window.alert(e)
+        this.$eventBusEmit('error', {
+          title: 'Login Error!',
+          message: e
+        })
       }
 
       this.sending = false

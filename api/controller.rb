@@ -15,9 +15,9 @@ class Controller
 
     @_bluzelle = Swarmclient::Communication.new endpoint: ENDPOINT, port: PORT, uuid: UUID
 
-    @_user_collection = Collection::User.new bluzelle: @_bluzelle
-    @_conversation_collection = Collection::Conversation.new bluzelle: @_bluzelle
-    @_message_collection = Collection::Message.new bluzelle: @_bluzelle
+    @_user_collection = Collection::User.new bluzelle: @_bluzelle, collection_key: 'users'
+    @_conversation_collection = Collection::Conversation.new bluzelle: @_bluzelle, collection_key: 'conversations'
+    @_message_collection = Collection::Message.new bluzelle: @_bluzelle, collection_key: 'messages'
 
     init_collection
   end
@@ -62,7 +62,6 @@ private
 
   def init_collection
     bluzelle_keys = @_bluzelle.keys
-    # collection_id: []
     ['users', 'conversations', 'messages'].each do |collection_id|
       next if bluzelle_keys.include? collection_id
 

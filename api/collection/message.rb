@@ -3,10 +3,9 @@ require_relative 'base'
 module Collection
   class Message < Base
 
-    ID = 'messages'
-    GEN_ID = []
-    ALLOWED_ATTRS = [:timestamp, :sender, :body]
-    VISIBLE_ATTRS = [:timestamp, :sender, :body]
+    GEN_ID = [:timestamp, :sender_id]
+    ALLOWED_ATTRS = [:created_at, :sender_id, :body]
+    VISIBLE_ATTRS = [:created_at, :sender_id, :body]
 
     def load_collection record_ids
       super record_ids, VISIBLE_ATTRS
@@ -22,10 +21,6 @@ module Collection
 
     def create_record_params attrs
       super attrs, ALLOWED_ATTRS
-    end
-
-    def collection_id
-      super ID
     end
 
   end

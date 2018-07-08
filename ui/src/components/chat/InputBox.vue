@@ -1,7 +1,9 @@
 <template>
   <div id="input-container">
     <div id="input-text">
-      <input type="text" id="input-text-box" name="input-text-box" placeholder="Type a message" v-on:keyup.enter="postMessage($event.target.value)">
+      <input type="text" id="input-text-box" name="input-text-box" placeholder="Type a message"
+        v-model="msg"
+        v-on:keyup.enter="postMessage()">
     </div>
     <div id="input-button">
       <md-button v-on:click="postMessage">Send</md-button>
@@ -10,17 +12,42 @@
 </template>
 
 <script>
-import { EventBus } from '../../helper/event-bus.js';
 
 export default {
   name: 'Input',
+  data() {
+    return {
+      msg: ""
+    }
+  },
   methods: {
-    postMessage: function(msg) {
-        if (msg !== "") {
-          EventBus.$emit('post-message', msg);
-          document.getElementById('input-text-box').value = "";
+    async postMessage() {
+      if (this.msg !== "") {
+        return
+      }
+      try {
+        var response = await this.$apiCall({
+          type: 'post',
+          url: `users/conversations/${asdf}/message`,
+          data: {
+
+          }
+        })
+
+        if (response.data.error) {
+          debugger
         }
-    },
+        else {
+          debugger
+        }
+
+        this.$eventBusEmit('post-message', this.msg)
+      }
+      catch (e) {
+        debugger
+      }
+      this.msg = ""
+    }
   }
 }
 </script>

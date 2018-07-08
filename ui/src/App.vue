@@ -3,12 +3,19 @@
     <login-dialog
       :showDialog="showLoginDialog"
       @close-dialog="showLoginDialog = false"
-      @show-register-dialog="showRegisterDialog">
-    </login-dialog>
+      @show-register-dialog="switchDialog" />
+
     <register-dialog
-      @close-dialog="registerLoginDialog = false"
-      :showDialog="registerLoginDialog">
-    </register-dialog>
+      @close-dialog="switchDialog"
+      :showDialog="registerLoginDialog" />
+
+    <error-dialog
+      @close-dialog="resetError"
+      :title="error.title"
+      :message="error.message"
+      :showDialog="hasError"
+      />
+
     <chat></chat>
   </div>
 </template>
@@ -17,21 +24,44 @@
 import Chat from './components/Chat.vue'
 import LoginDialog from './dialogs/loginDialog.vue'
 import RegisterDialog from './dialogs/registerDialog.vue'
+import ErrorDialog from './dialogs/errorDialog.vue'
+import { EventBus } from './helper/event-bus'
 
 export default {
   name: 'app',
   data() {
     return {
       showLoginDialog: true,
-      registerLoginDialog: false
+      registerLoginDialog: false,
+      error: {
+        title: null,
+        message: null
+      },
+      user: {
+        username: null,
+        avatar: null
+      }
+    }
+  },
+  computed: {
+    hasError() {
+      return Boolean(this.error.title && this.error.message)
     }
   },
   mounted() {
+    EventBus.$on('error', ({ title, message }) => {
+      this.error.title = title
+      this.error.message = message
+    })
   },
   methods: {
-    showRegisterDialog() {
-      this.registerLoginDialog = true
-      this.showLoginDialog = false
+    switchDialog() {
+      this.registerLoginDialog = !this.registerLoginDialog
+      this.showLoginDialog = !this.showLoginDialog
+    },
+    resetError() {
+      this.error.title = null
+      this.error.message = null
     }
   },
   components: {

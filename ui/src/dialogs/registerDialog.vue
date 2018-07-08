@@ -17,7 +17,7 @@
           </md-field>
 
           <md-field :class="getValidationField('email')">
-            <label for="username">Email</label>
+            <label for="email">Email</label>
             <md-input name="email" id="email" v-model="form.email" :disabled="sending" />
             <span class="md-error" v-if="!$v.form.email.required">Email is required</span>
             <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid Email</span>
@@ -38,6 +38,7 @@
           </md-field>
 
           <md-card-actions>
+            <md-button class="md-primary" @click.prevent="navigateback()">Back</md-button>
             <md-button type="submit" class="md-primary" :disabled="sending">Register</md-button>
           </md-card-actions>
 
@@ -99,19 +100,35 @@ export default {
           }
         })
 
-        if (response.status == 200 && response.data._id) {
-          console.log(response.data)
-          this.$emit('close-dialog')
+        if (response.data.error) {
+          this.resetFields(['password', 'confirmPassword'])
+          this.$eventBusEmit('error', {
+            title: 'Register Error!',
+            message: response.data.error
+          })
         }
         else {
-          window.alert(response.data)
+          console.log(response.data)
+          this.resetFields()
+          this.navigateback()
         }
       }
       catch (e) {
-        window.alert(e)
+        this.$eventBusEmit('error', {
+          title: 'Register Error!',
+          message: e
+        })
+        this.resetFields()
       }
 
       this.sending = false
+    },
+    resetFields(fieldsToReset) {
+      var fieldNames = fieldsToReset || ['username', 'email', 'password', 'confirmPassword']
+      fieldNames.forEach(fieldName => this.form[fieldName] = '')
+    },
+    navigateback() {
+      this.$emit('close-dialog')
     }
   },
   validations: {

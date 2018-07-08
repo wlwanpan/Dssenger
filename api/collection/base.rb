@@ -4,12 +4,12 @@ module Collection
   class Base
     include Math
 
-    def initialize bluzelle:
+    def initialize bluzelle:, collection_key:
       @_bluzelle = bluzelle
+      @_collection_key = collection_key
     end
 
-    def load_collection ids, visible_attrs
-      ids ||= []
+    def load_collection ids = [], visible_attrs
       collection_ids = ids.empty? ? record_ids : ids
 
       collection_ids.map do |record_id|
@@ -33,29 +33,27 @@ module Collection
           save_record record_id
           allowed_attrs
         when 'RECORD_EXISTS'
-          {error: "#{record_id}: already exist"}
+          {error: "#{collection_name} already exist."}
         else
-          {error: 'Error saving to bluzelle'}
+          {error: "Error saving to bluzelle swarmDb"}
       end
     end
 
     def find_record_by_id id, allowed_attrs
       allowed_attrs ||= []
-      allowed_attrs << :exist
 
       resp = @_bluzelle.read id.to_s
-      return {exist: false} if resp == 'RECORD_NOT_FOUND'
+      return {error: "#{collection_name} does not exist"} if resp == 'RECORD_NOT_FOUND'
 
       parsed_resp = parse_response(resp)
       filtered_output = parsed_resp.select { |key, value| allowed_attrs.include?(key) }
-      filtered_output[:exist] = true
       filtered_output[:_id] = id
       p filtered_output
       filtered_output
     end
 
-    def collection_id id
-      (id || '').to_s
+    def collection_id
+      (@_collection_key || '').to_s
     end
 
     def record_ids
@@ -91,6 +89,10 @@ module Collection
       allowed_attrs_compact = allowed_attrs.compact
       allowed_attrs_as_str = allowed_attrs_compact.join('')
       sha256(allowed_attrs_as_str)
+    end
+
+    def collection_name
+      @_collection_key.capitalize[0...-1]
     end
 
   end

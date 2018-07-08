@@ -3,9 +3,8 @@ require_relative 'base'
 module Collection
   class User < Base
 
-    ID = 'users'
     GEN_ID = [:username, :password_hash]
-    ALLOWED_ATTRS = [:username, :email, :contactList, :conversationList, :avatar]
+    ALLOWED_ATTRS = [:username, :email, :contactList, :conversationList, :avatar, :password_hash]
     VISIBLE_ATTRS = [:username, :avatar]
 
     def load_collection record_ids
@@ -38,10 +37,6 @@ module Collection
 
     def create_record_params attrs
       super attrs, ALLOWED_ATTRS
-    end
-
-    def collection_id
-      super ID
     end
 
   end
