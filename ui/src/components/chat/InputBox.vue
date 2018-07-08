@@ -6,7 +6,7 @@
         v-on:keyup.enter="postMessage()">
     </div>
     <div id="input-button">
-      <md-button v-on:click="postMessage()">Send</md-button>
+      <md-button v-on:click.prevent="postMessage()">Send</md-button>
     </div>
   </div>
 </template>

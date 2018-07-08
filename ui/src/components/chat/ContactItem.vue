@@ -19,9 +19,14 @@ export default {
     contactSwitch: function() {
       this.$emit('on-click')
       this.$eventBusEmit('contact-switch', this.contact);
+
+      // update selected tab
+      document.getElementsByClassName('selected')[0].classList.remove("selected");
+      document.getElementsByClassName('contact-' + this.index)[0].classList.add("selected");
     }
   },
   props: {
+    index: Number,
     contact: Object
   },
 }
@@ -47,6 +52,7 @@ export default {
 
 .contact-item-bubble:hover {
   cursor: pointer;
+  background: #7d97c1;
 }
 
 .md-avatar {
@@ -68,6 +74,10 @@ export default {
 
 .contact-item-description p {
     margin-top: 10px;
+}
+
+.selected .contact-item-bubble {
+  background: #3460a8;
 }
 
 </style>
