@@ -1,6 +1,14 @@
 <template>
   <div id="app">
-    <login-dialog></login-dialog>
+    <login-dialog
+      :showDialog="showLoginDialog"
+      @close-dialog="showLoginDialog = false"
+      @show-register-dialog="showRegisterDialog">
+    </login-dialog>
+    <register-dialog
+      @close-dialog="registerLoginDialog = false"
+      :showDialog="registerLoginDialog">
+    </register-dialog>
     <chat></chat>
   </div>
 </template>
@@ -8,12 +16,28 @@
 <script>
 import Chat from './components/Chat.vue'
 import LoginDialog from './dialogs/loginDialog.vue'
+import RegisterDialog from './dialogs/registerDialog.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      showLoginDialog: true,
+      registerLoginDialog: false
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    showRegisterDialog() {
+      this.registerLoginDialog = true
+      this.showLoginDialog = false
+    }
+  },
   components: {
     Chat,
-    LoginDialog
+    LoginDialog,
+    RegisterDialog
   },
 }
 </script>
@@ -28,6 +52,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   overflow: hidden;
+}
+
+.md-overlay {
+  background: rgba(0,0,0,.8) !important;
 }
 
 </style>

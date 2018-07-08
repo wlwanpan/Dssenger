@@ -15,6 +15,7 @@ Vue.use({
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
       var response = await axios[type](...packet) // let caller handle error
+      console.log(response)
       return response
 
     }

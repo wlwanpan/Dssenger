@@ -8,11 +8,11 @@ module Collection
       @_bluzelle = bluzelle
     end
 
-    def load_collection record_ids, visible_attrs
-      record_ids ||= []
-      record_ids = record_ids.empty? ? record_ids : record_ids
+    def load_collection ids, visible_attrs
+      ids ||= []
+      collection_ids = ids.empty? ? record_ids : ids
 
-      record_ids.map do |record_id|
+      collection_ids.map do |record_id|
         find_record_by_id record_id, visible_attrs
       end
     end
@@ -50,6 +50,7 @@ module Collection
       filtered_output = parsed_resp.select { |key, value| allowed_attrs.include?(key) }
       filtered_output[:exist] = true
       filtered_output[:_id] = id
+      p filtered_output
       filtered_output
     end
 

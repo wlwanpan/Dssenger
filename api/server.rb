@@ -48,24 +48,24 @@ class Connection < Sinatra::Base
   end
 
   post '/register' do
-    # User attributes: name, email, password(bytes32), avatar(base64)
-    password_hash = sha256 params[:password]
+    decoded_req = request.body.read.gsub(/\\u200c/, '')
+    req_params = eval decoded_req
+    return 200 if req_params[:password].nil? || req_params[:email].nil?
+    password_hash = sha256 req_params[:password]
     @_controller.create_record('user', {
-        username: params[:username], email: params[:email], password_hash: password_hash, contactList: [], avatar: params[:avatar]
+        username: req_params[:username], email: req_params[:email], password_hash: password_hash, contactList: [], avatar: ''
       })
   end
 
   post '/login' do
-    read_req = eval(request.body.read)
-    return 200 if read_req[:password].nil? or read_req[:username].nil?
-    password_hash = sha256 read_req[:password]
-    @_controller.login read_req[:username], password_hash
+    req_params = eval request.body.read
+    return 200 if req_params[:password].nil? or req_params[:username].nil?
+    password_hash = sha256 req_params[:password]
+    @_controller.login req_params[:username], password_hash
   end
 
   get '/users' do
     @_controller.load_users
-    # Gonna keep fake data till ui is complete
-    [{username: 'Elvin'}, {username: 'Neil'}].to_json
   end
 
   get '/user/:id/contacts' do |id|

@@ -42,7 +42,8 @@ class Controller
   end
 
   def load_users
-    @_user_collection.load_collection []
+    users = @_user_collection.load_collection []
+    users.to_json
   end
 
   def load_contacts user_id

@@ -20,7 +20,7 @@
 export default {
   name: 'MessageBox',
   props: {
-      conversation: Array
+    conversation: Array
   },
 }
 </script>

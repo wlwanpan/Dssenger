@@ -19,7 +19,7 @@
 
             <md-field :class="getValidationField('password')">
               <label for="email">Password</label>
-              <md-input type="password" name="username" id="username" v-model="form.password" :disabled="sending" />
+              <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
               <span class="md-error" v-if="!$v.form.password.required">The email is required</span>
               <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid Password</span>
             </md-field>
@@ -45,21 +45,23 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, minLength} from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoginDialog',
   mixins: [validationMixin],
   data() {
     return {
-      showDialog: true,
       userSaved: false,
       sending: false,
       form: {
-        username: null,
-        password: null
+        username: '',
+        password: ''
       },
     }
+  },
+  props: {
+    showDialog: Boolean
   },
   validations: {
     form: {
@@ -75,9 +77,7 @@ export default {
   },
   methods: {
     register() {
-      console.log('Navigate to register page')
-      // navigate to register page then =>
-      // this.showDialog = false
+      this.$emit('show-register-dialog')
     },
     getValidationField (fieldName) {
       const field = this.$v.form[fieldName]
@@ -96,8 +96,10 @@ export default {
       }
     },
     async loginUser() {
+      this.sending = true
+
       try {
-        var user = await this.$apiCall({
+        var response = await this.$apiCall({
           type: 'post',
           url: '/login',
           data: {
@@ -106,9 +108,8 @@ export default {
           }
         })
 
-        if (user.data.exist) {
-          console.log(user.data) // user data here << _id / avatar / username
-          this.showDialog = false
+        if (response.data.exist) {
+          this.$emit('close-dialog')
         }
         else {
           window.alert('Account does not exist')
@@ -117,6 +118,8 @@ export default {
       catch (e) {
         window.alert(e)
       }
+
+      this.sending = false
     }
   }
 }
