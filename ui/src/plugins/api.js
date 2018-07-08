@@ -16,10 +16,26 @@ Vue.use({
       var endpoint = `http://${BASE_URL_LOCAL}${url}`
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
-      var response = await axios[type](...packet) // let caller handle error
-      console.log(response)
-      return response
+      try {
+        var response = await axios[type](...packet)
+        if (response.data.error) {
+          EventBus.$emit('error', {
+            title: 'Oups, error!',
+            message: response.data.error
+          })
+        }
+        else {
+          return response.data
+        }
+      }
+      catch (e) {
+        EventBus.$emit('error', {
+          title: 'Server error!',
+          message: e
+        })
+      }
 
+      return false
     }
 
     _vue.prototype.$eventBusEmit = (eventName, data) => {

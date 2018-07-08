@@ -1,6 +1,6 @@
 <template>
   <div id="chat">
-    <contacts></contacts>
+    <contacts :user="user"></contacts>
     <div id="message-container">
       <message-box :conversation="conversation"></message-box>
       <input-box></input-box>
@@ -26,7 +26,11 @@ export default {
   data() {
     return {
       conversation: [],
-      contactList: ['Warren', 'Wawa', 'Neil'] };
+      contactList: ['Warren', 'Wawa', 'Neil']
+    }
+  },
+  props: {
+    user: Object
   }
 }
 </script>

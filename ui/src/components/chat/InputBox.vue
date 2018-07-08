@@ -25,27 +25,19 @@ export default {
       if (this.msg !== "") {
         return
       }
-      try {
-        var response = await this.$apiCall({
-          type: 'post',
-          url: `users/conversations/${asdf}/message`,
-          data: {
 
-          }
-        })
-
-        if (response.data.error) {
-          debugger
+      // fix here
+      var response = await this.$apiCall({
+        type: 'post',
+        url: `users/conversations/${asdf}/message`,
+        data: {
+          body: this.msg
         }
-        else {
-          debugger
-        }
-
+      })
+      if (response) {
         this.$eventBusEmit('post-message', this.msg)
       }
-      catch (e) {
-        debugger
-      }
+
       this.msg = ""
     }
   }

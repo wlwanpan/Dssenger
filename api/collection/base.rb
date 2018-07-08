@@ -9,7 +9,8 @@ module Collection
       @_collection_key = collection_key
     end
 
-    def load_collection ids = [], visible_attrs
+    def load_collection ids, visible_attrs
+      ids ||= []
       collection_ids = ids.empty? ? record_ids : ids
 
       collection_ids.map do |record_id|

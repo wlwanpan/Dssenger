@@ -23,6 +23,7 @@ module Collection
       current_user = find_record_by_id user_id, [:contactList]
       contact_ids = current_user[:contractList]
 
+      return [].to_json if contact_ids.nil? || contact_ids.empty?
       contact_list = load_collection contact_ids
       contact_list.to_json
     end

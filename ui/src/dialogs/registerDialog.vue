@@ -26,14 +26,14 @@
           <md-field :class="getValidationField('password')">
             <label for="email">Password</label>
             <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.password.required">The email is required</span>
+            <span class="md-error" v-if="!$v.form.password.required">Password is required</span>
             <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid Password</span>
           </md-field>
 
           <md-field :class="getValidationField('confirmPassword')">
             <label for="email">Confirm Password</label>
             <md-input type="password" name="confirmPassword" id="confirmPassword" v-model="form.confirmPassword" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.confirmPassword.required">The email is required</span>
+            <span class="md-error" v-if="!$v.form.confirmPassword.required">Confirm password is required</span>
             <span class="md-error" v-else-if="!$v.form.confirmPassword.minlength">Invalid Password</span>
           </md-field>
 
@@ -88,37 +88,23 @@ export default {
     async registerUser() {
       this.sending = true
 
-      try {
-        var response = await this.$apiCall({
-          type: 'post',
-          url: '/register',
-          data: {
-            username: this.form.username,
-            email: this.form.email,
-            password: this.form.password,
-            avatar: this.form.avatar
-          }
-        })
+      var response = await this.$apiCall({
+        type: 'post',
+        url: '/register',
+        data: {
+          username: this.form.username,
+          email: this.form.email,
+          password: this.form.password,
+          avatar: this.form.avatar
+        }
+      })
 
-        if (response.data.error) {
-          this.resetFields(['password', 'confirmPassword'])
-          this.$eventBusEmit('error', {
-            title: 'Register Error!',
-            message: response.data.error
-          })
-        }
-        else {
-          console.log(response.data)
-          this.resetFields()
-          this.navigateback()
-        }
-      }
-      catch (e) {
-        this.$eventBusEmit('error', {
-          title: 'Register Error!',
-          message: e
-        })
+      if (response) {
         this.resetFields()
+        this.navigateback()
+      }
+      else {
+        this.resetFields(['password', 'confirmPassword'])
       }
 
       this.sending = false

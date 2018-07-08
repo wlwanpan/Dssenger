@@ -1,12 +1,11 @@
 <template>
-  <div class='error-message-dialog'>
+  <div class='add-contact-dialog'>
     <md-dialog
-      :md-click-outside-to-close='false'
       :md-active.sync="showDialog">
-      <md-dialog-title>{{ title }}</md-dialog-title>
+      <md-dialog-title>Add Contact</md-dialog-title>
 
       <md-dialog-content>
-        {{ message }}
+        {{ 'asdf' }}
       </md-dialog-content>
 
       <md-card-actions>
@@ -19,17 +18,29 @@
 <script>
 
 export default {
-  name: 'ErrorDialog',
+  name: 'AddContactDialog',
+  async mounted() {
+    var response = await this.$apiCall({
+      type: 'get',
+      url: '/users'
+    })
+
+    if (response) {
+      console.log(response)
+    }
+  },
   methods: {
-    onClose () {
+    onClose() {
       this.$emit('close-dialog')
     }
   },
   props: {
-    title: String,
-    message: String,
+    user: Object,
     showDialog: Boolean
   }
 }
 
 </script>
+
+<style>
+</style>

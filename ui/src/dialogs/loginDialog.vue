@@ -98,31 +98,17 @@ export default {
     async loginUser() {
       this.sending = true
 
-      try {
-        var response = await this.$apiCall({
-          type: 'post',
-          url: '/login',
-          data: {
-            username: this.form.username,
-            password: this.form.password
-          }
-        })
+      var response = await this.$apiCall({
+        type: 'post',
+        url: '/login',
+        data: {
+          username: this.form.username,
+          password: this.form.password
+        }
+      })
 
-        if (response.data.error) {
-          this.$eventBusEmit('error', {
-            title: 'Login Error!',
-            message: response.data.error
-          })
-        }
-        else {
-          this.$emit('close-dialog')
-        }
-      }
-      catch (e) {
-        this.$eventBusEmit('error', {
-          title: 'Login Error!',
-          message: e
-        })
+      if (response) {
+        this.$emit('login-user', response)
       }
 
       this.sending = false

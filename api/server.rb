@@ -66,6 +66,7 @@ class Connection < Sinatra::Base
   end
 
   get '/user/:id/contacts' do |id|
+    p id
     @_controller.load_contacts id
   end
 

@@ -2,7 +2,7 @@
   <div id="app">
     <login-dialog
       :showDialog="showDialog[0]"
-      @close-dialog="closeAll"
+      @login-user="loginUser"
       @show-register-dialog="switchTo(1)" />
 
     <register-dialog
@@ -16,7 +16,7 @@
       :showDialog="showDialog[2]"
       />
 
-    <chat></chat>
+    <chat :user="user"></chat>
   </div>
 </template>
 
@@ -38,6 +38,7 @@ export default {
         message: null
       },
       user: {
+        _id: null,
         username: null,
         avatar: null
       }
@@ -53,6 +54,10 @@ export default {
     })
   },
   methods: {
+    loginUser(userData) {
+      this.closeAll()
+      this.user = userData
+    },
     switchTo(dialogIndex) {
       var output = [false, false, false]
       output[dialogIndex] = true

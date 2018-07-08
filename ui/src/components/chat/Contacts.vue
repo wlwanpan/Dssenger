@@ -1,10 +1,15 @@
 <template>
   <div id="contacts">
+    <add-contact-dialog
+      :user="user"
+      @close-dialog="showAddContact = false"
+      :showDialog="showAddContact"
+      />
     <div class="contact-list">
       <contact-item v-for="(contact, index) in contactList" :key="index" :contact="contact"></contact-item>
     </div>
     <div class="contact-actions">
-      <md-button class="md-fab md-primary">
+      <md-button class="md-fab md-primary" @click="openAddContactDialog">
         <md-icon>add</md-icon>
       </md-button>
     </div>
@@ -12,34 +17,48 @@
 </template>
 
 <script>
-import ContactItem from './ContactItem.vue';
+import ContactItem from './ContactItem'
+import AddContactDialog from '../../dialogs/addContactDialog'
 
 export default {
   name: 'Contacts',
-
   data() {
     return {
-      contactList: []
+      contactList: [],
+      showAddContact: false
     }
   },
-
   async mounted() {
-    try {
+    if (this.user._id) {
+      this.loadContacts()
+    }
+  },
+  watch: {
+    user(newVal, oldVal) {
+      this.loadContacts()
+    }
+  },
+  methods: {
+    async loadContacts() {
       var response = await this.$apiCall({
         type: 'get',
-        url: '/users'
+        url: `/user/${this.user._id}/contacts`
       })
-      this.contactList = response.data
-    }
-    catch (e) {
-      window.alert(e)
+      if (response) {
+        this.contactList = response
+      }
+    },
+    openAddContactDialog() {
+      this.showAddContact = true
     }
   },
-
+  props: {
+    user: Object
+  },
   components: {
-    ContactItem
-  },
-
+    ContactItem,
+    AddContactDialog
+  }
 }
 </script>
 
