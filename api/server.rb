@@ -45,7 +45,7 @@ class Connection < Sinatra::Base
     return {error: 'Missing Parameters'}.to_json if req_params[:password].nil? || req_params[:email].nil? || req_params[:username].nil?
     password_hash = sha256 req_params[:password]
     @_controller.create_record('user', {
-        username: req_params[:username], email: req_params[:email], password_hash: password_hash, contactList: [], avatar: ''
+        username: req_params[:username], email: req_params[:email], password_hash: password_hash, contactList: [], avatar: req_params[:avatar]
       })
   end
 

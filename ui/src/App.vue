@@ -48,7 +48,7 @@ export default {
   },
   mounted() {
     EventBus.$on('error', ({ title, message }) => {
-      if !(title || message) {
+      if (!(title || message)) {
         return
       }
       this.error.title = title

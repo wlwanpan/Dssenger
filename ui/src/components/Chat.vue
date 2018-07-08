@@ -6,7 +6,14 @@
       <input-box :user="user"></input-box>
     </div>
     <div id="buffer">
-      <p>PLACEHOLDER.. OTHER CONTENT HERE??</p>
+      <md-empty-state
+        class="md-primary"
+        md-label="Account"
+        :md-description="description">
+        <md-avatar class="md-avatar-icon md-large">
+          <img :src="userAvatar" alt="Avatar">
+        </md-avatar>
+      </md-empty-state>
     </div>
   </div>
 </template>
@@ -27,6 +34,25 @@ export default {
     return {
       conversation: [],
       contactList: ['Warren', 'Wawa', 'Neil']
+    }
+  },
+  computed: {
+    description() {
+      if (this.user && this.user.username) {
+        return 'Logged in as:' + this.user.username
+      }
+      else {
+        return 'Not logged in'
+      }
+    },
+    userAvatar() {
+      console.log(this.user.avatar)
+      if (this.user && this.user.avatar) {
+        return this.user.avatar
+      }
+      else {
+        return ''
+      }
     }
   },
   props: {

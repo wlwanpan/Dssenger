@@ -37,6 +37,11 @@
             <span class="md-error" v-else-if="!$v.form.confirmPassword.minlength">Invalid Password</span>
           </md-field>
 
+          <md-field>
+            <label for="avatar">Upload Avatar</label>
+            <md-file v-model="avatar" accept="image/*" @change="convertAvatar"/>
+          </md-field>
+
           <md-card-actions>
             <md-button class="md-primary" @click.prevent="navigateback()">Back</md-button>
             <md-button type="submit" class="md-primary" :disabled="sending">Register</md-button>
@@ -64,11 +69,22 @@ export default {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        avatar: ''
       }
     }
   },
   methods: {
+    convertAvatar(event) {
+      var input = event.target
+      if (input.files && input.files[0]) {
+        var reader = new FileReader()
+        reader.onload = (e) => {
+          this.form.avatar = e.target.result
+        }
+        reader.readAsDataURL(input.files[0])
+      }
+    },
     getValidationField(fieldName) {
       const field = this.$v.form[fieldName]
 
