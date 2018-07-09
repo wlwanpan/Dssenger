@@ -18,11 +18,9 @@ export default {
   methods: {
     contactSwitch: function() {
       this.$emit('on-click')
-      this.$eventBusEmit('contact-switch', this.contact);
-
-      // update selected tab
-      document.getElementsByClassName('selected')[0].classList.remove("selected");
-      document.getElementsByClassName('contact-' + this.index)[0].classList.add("selected");
+      this.$eventBusEmit('contact-switch', this.contact)
+      // document.getElementsByClassName('selected')[0].classList.remove("selected");
+      // document.getElementsByClassName('contact-' + this.index)[0].classList.add("selected");
     }
   },
   props: {

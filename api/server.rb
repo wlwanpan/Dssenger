@@ -13,6 +13,8 @@ class Connection < Sinatra::Base
 
   set reload_templates: false
   set :server, %w[webrick]
+  set :sockets, []
+  set :port, 8081
 
   configure do
     enable :cross_origin
@@ -34,10 +36,6 @@ class Connection < Sinatra::Base
     @_controller = Controller.new
     @_connections = []
 
-  end
-
-  get '/' do
-    200
   end
 
   post '/register' do
@@ -85,34 +83,6 @@ class Connection < Sinatra::Base
     decoded_req = request.body.read.gsub(/\\u200c/, '')
     req_params = eval decoded_req
     @_controller.post_message user_id, participant_id, req_params[:message]
-  end
-
-  get '/stream', provides: 'text/event-stream' do
-    # Might use this one instead of stream
-    # https://github.com/gruis/sinatra-websocket
-    # stream :keep_open do |out|
-    #   @_connections << out
-    #   out.callback { @_connections.delete(out) }
-    # end
-  end
-
-  get '/connect' do
-    request.websocket do |ws|
-      ws.onopen do
-        ws.send("Connected")
-        settings.sockets << ws
-      end
-      ws.onmessage do |msg|
-        EM.next_tick {
-          settings.sockets.each do |s|
-            s.send(msg)
-          end
-        }
-      end
-      ws.onclose do
-        settings.sockets.delete(ws)
-      end
-    end
   end
 
 end

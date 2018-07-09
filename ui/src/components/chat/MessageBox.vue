@@ -36,7 +36,7 @@ export default {
       }
   },
   async mounted() {
-    console.log(this.user._id);
+
     EventBus.$on('contact-switch', contact => {
       this.username = contact.username;
 
@@ -58,7 +58,7 @@ export default {
       if (hour < 10) {
           hour = "0" + hour;
       }
-      debugger
+
       this.conversation.unshift({ created_at: hour + ":" + min, body: msg, sender_id: this.user._id });
 
       // add new line to DB
@@ -70,14 +70,13 @@ export default {
   },
   methods: {
     async loadContactConversation(contact) {
-      debugger
+
       var response = await this.$apiCall({
         type: 'get',
         url: `/user/${this.user._id}/conversation/${contact._id}`
       })
 
       if (response) {
-        console.log(response);
         this.conversation = response;
       }
     },

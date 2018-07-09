@@ -54,6 +54,7 @@ export default {
       })
       this.onClose()
       if (response) {
+        this.$emit('on-selected', contact)
         this.$eventBusEmit('error', {
           title: 'Success',
           message: 'Contact added!'

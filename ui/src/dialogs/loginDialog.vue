@@ -107,7 +107,7 @@ export default {
         }
       })
 
-      if (response) {
+      if (response && response._id) {
         this.$emit('login-user', response)
       }
 

@@ -14,14 +14,15 @@
           <img :src="userAvatar" alt="Avatar">
         </md-avatar>
       </md-empty-state>
+      <md-button class="md-dense md-raised md-primary" @click.prevent="logout">Logout</md-button>
     </div>
   </div>
 </template>
 
 <script>
-import Contacts from './chat/Contacts.vue';
-import InputBox from './chat/InputBox.vue';
-import MessageBox from './chat/MessageBox.vue';
+import Contacts from './chat/Contacts.vue'
+import InputBox from './chat/InputBox.vue'
+import MessageBox from './chat/MessageBox.vue'
 
 export default {
   name: 'Chat',
@@ -31,6 +32,9 @@ export default {
     MessageBox
   },
   computed: {
+    logout() {
+      window.location.reload()
+    },
     description() {
       if (this.user && this.user.username) {
         return 'Logged in as:' + this.user.username

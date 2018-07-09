@@ -11,15 +11,13 @@ Vue.use({
 
       // To configure webpack for process.ENV -> check local vs production
       const BASE_URL_PRODUCTION = '18.220.107.107:80'
-      const BASE_URL_LOCAL = 'localhost:4567'
+      const BASE_URL_LOCAL = 'localhost:8081'
 
       var endpoint = `http://${BASE_URL_LOCAL}${url}`
       var packet = type === 'post' ? [endpoint, data] : [endpoint]
 
       try {
         var response = await axios[type](...packet)
-        console.log('From API -> response:')
-        console.log(response)
         if (response.data.error) {
           EventBus.$emit('error', {
             title: 'Oups, error!',

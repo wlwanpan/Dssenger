@@ -3,10 +3,12 @@
     <add-contact-dialog
       :user="user"
       @close-dialog="showAddContact = false"
+      @on-selected="onSelect"
       :showDialog="showAddContact"
       />
     <div class="contact-list">
       <div v-if="contactList.length">
+        <h1>Contacts</h1>
         <contact-item v-for="(contact, index) in contactList"
           :key="index"
           :contact="contact"
@@ -58,6 +60,9 @@ export default {
     }
   },
   methods: {
+    onSelect(contact) {
+      this.contactList.push(contact)
+    },
     async loadContacts() {
       this.loadingContacts = true
       var response = await this.$apiCall({

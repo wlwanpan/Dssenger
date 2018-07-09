@@ -86,7 +86,7 @@ class Controller
       else generated_conversation_id2
       end
 
-    return [].to_json unless bluzelle_keys.include?(generated_conversation_id) # no conversation ongoing
+    return [].to_json unless bluzelle_keys.include?(generated_conversation_id)
 
     current_conversation = eval @_bluzelle.read(generated_conversation_id)
 
