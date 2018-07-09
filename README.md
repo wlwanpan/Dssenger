@@ -1,8 +1,12 @@
 # Dssenger
 
-[Hack.Summit Hackathon](https://hacksummit.org/) Project.
+[Hack.Summit Hackathon](https://hacksummit.org/) project.
 
-Dssenger is a messaging Webapp and makes use of an API to store user information on a decentralized json database [Bluzelle SwarmDb](https://github.com/bluzelle/swarmDB).
+Dssenger is a messaging Webapp and makes use of an API to store user information on a decentralized NoSQL database [Bluzelle SwarmDb](https://github.com/bluzelle/swarmDB).
+
+https://fast-tundra-10326.herokuapp.com/
+
+Note: The API might go off sometime, since its not being monitored.
 
 ## Installation
 
