@@ -77,7 +77,7 @@ export default {
       })
 
       if (response) {
-        this.conversation = response;
+        this.conversation = response.reverse();
       }
     },
     async addMessage(msg, contact) {
