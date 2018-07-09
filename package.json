@@ -1,8 +1,9 @@
 {
   "name": "dssenger",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Messenger WebApp",
   "scripts": {
+    "start": "node server.js",
     "dev": "concurrently --kill-others \"cd ui && npm run serve\" \"cd api && ruby server.rb\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +11,14 @@
     "type": "git",
     "url": "git+https://github.com/wlwanpan/Dssenger.git"
   },
-  "author": "Warren, Neil and Elvin",
+  "author": "Warren Wan, Neil Tsea and Elvin Li",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wlwanpan/Dssenger/issues"
   },
   "homepage": "https://github.com/wlwanpan/Dssenger#readme",
   "dependencies": {
-    "concurrently": "^3.6.0"
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3"
   }
 }
