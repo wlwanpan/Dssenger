@@ -14,7 +14,6 @@ class Connection < Sinatra::Base
   set reload_templates: false
   set :server, %w[webrick]
   set :sockets, []
-  set :port, 8081
 
   configure do
     enable :cross_origin
