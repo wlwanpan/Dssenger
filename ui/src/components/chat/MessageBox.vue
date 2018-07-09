@@ -6,11 +6,17 @@
     <div id="messages">
       <div v-for="(msg, index) in conversation" :key="`msg-${index}`">
         <div v-if="msg.sender_id == user._id" class="message-own">
+          <md-avatar class="md-avatar-icon md-small accent">
+            <img :src="user.avatar" alt="Avatar">
+          </md-avatar>
           <div class="message-bubble">
             {{ msg.body }}
           </div>
         </div>
         <div v-else class="message-response">
+          <md-avatar class="md-avatar-icon md-small accent">
+            <img :src="currentContact.avatar" alt="Avatar">
+          </md-avatar>
           <div class="message-bubble">
             {{ msg.body }}
           </div>
@@ -28,6 +34,7 @@ export default {
   name: 'MessageBox',
   props: {
     user: Object,
+    currentContact: Object,
   },
   data() {
       return {
@@ -39,6 +46,7 @@ export default {
 
     EventBus.$on('contact-switch', contact => {
       this.username = contact.username;
+      this.currentContact = contact;
 
       this.conversation = [];
       if (this.user._id) {
@@ -49,6 +57,7 @@ export default {
     EventBus.$on('post-message', data => {
       let msg = data.msg;
       let contact = data.contact;
+<<<<<<< Updated upstream
       let d = new Date();
       let min = d.getMinutes();
       if (min < 10) {
@@ -60,6 +69,19 @@ export default {
       }
 
       this.conversation.unshift({ created_at: hour + ":" + min, body: msg, sender_id: this.user._id });
+=======
+      let date = new Date();
+      // let min = d.getMinutes();
+      // if (min < 10) {
+      //     min = "0" + min;
+      // }
+      // let hour = d.getHours();
+      // if (hour < 10) {
+      //     hour = "0" + hour;
+      // }
+      debugger
+      this.conversation.unshift({ created_at: date, body: msg, sender_id: this.user._id });
+>>>>>>> Stashed changes
 
       // add new line to DB
       this.addMessage(msg, contact);
@@ -146,8 +168,18 @@ export default {
   background: #0084FF;
 }
 
+.message-own .md-avatar {
+  margin: 0 0 0 7px;
+  align-self: center;
+}
+
 .message-response .message-bubble {
   background: #E9EBEE;
+}
+
+.message-response .md-avatar {
+  margin: 0 7px 0 0px;
+  align-self: center;
 }
 
 </style>
