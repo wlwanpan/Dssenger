@@ -110,7 +110,7 @@ export default {
 #messages {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column-reverse;
   margin-bottom: 10px;

@@ -3,8 +3,10 @@
     <md-dialog
       :md-active.sync="showDialog">
       <md-dialog-title>Add Contact</md-dialog-title>
-
       <md-dialog-content>
+        <md-field>
+          <md-input v-model="searchValue" placeholder="Search user..."></md-input>
+        </md-field>
         <contact-item
           v-for="(contact, index) in filteredContactList" :key="index" :contact="contact"
           @on-click="addToUserContact(contact)"/>
@@ -24,6 +26,7 @@ export default {
   name: 'AddContactDialog',
   data() {
     return {
+      searchValue: '',
       contactList: []
     }
   },
@@ -40,7 +43,18 @@ export default {
   computed: {
     filteredContactList() {
       var userId = this.user ? this.user._id : ''
-      return this.contactList.filter(contact => contact._id != userId)
+      var regexp = new RegExp(this.searchValue, 'g')
+      return this.contactList.filter(contact => {
+        if (contact._id == userId) {
+          return false
+        }
+        else if (this.searchValue == '') {
+          return true
+        }
+        else {
+          return regexp.test(contact.username)
+        }
+      })
     }
   },
   methods: {
@@ -78,5 +92,15 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+.md-dialog-content {
+  padding: 0 15px 5px !important;
+}
+.md-dialog-title {
+  margin-bottom: 0px !important;
+  min-width: 35px !important;
+}
+.md-dialog {
+  min-height: 500px !important;
+}
 </style>

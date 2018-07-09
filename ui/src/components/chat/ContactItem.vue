@@ -41,9 +41,8 @@ export default {
 
 .contact-item-bubble {
     width: 305px;
-    height: 100px;
     border-radius: 10px;
-    margin: 0 0 5px 0;
+    margin: 0 0 10px 0;
     background: #238CC5;
     display: flex;
 }
