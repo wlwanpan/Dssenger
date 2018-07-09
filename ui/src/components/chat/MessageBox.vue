@@ -57,19 +57,6 @@ export default {
     EventBus.$on('post-message', data => {
       let msg = data.msg;
       let contact = data.contact;
-<<<<<<< Updated upstream
-      let d = new Date();
-      let min = d.getMinutes();
-      if (min < 10) {
-          min = "0" + min;
-      }
-      let hour = d.getHours();
-      if (hour < 10) {
-          hour = "0" + hour;
-      }
-
-      this.conversation.unshift({ created_at: hour + ":" + min, body: msg, sender_id: this.user._id });
-=======
       let date = new Date();
       // let min = d.getMinutes();
       // if (min < 10) {
@@ -79,9 +66,7 @@ export default {
       // if (hour < 10) {
       //     hour = "0" + hour;
       // }
-      debugger
       this.conversation.unshift({ created_at: date, body: msg, sender_id: this.user._id });
->>>>>>> Stashed changes
 
       // add new line to DB
       this.addMessage(msg, contact);
