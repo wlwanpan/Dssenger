@@ -31,10 +31,12 @@ export default {
     InputBox,
     MessageBox
   },
-  computed: {
+  methods: {
     logout() {
       window.location.reload()
-    },
+    }
+  },
+  computed: {
     description() {
       if (this.user && this.user.username) {
         return 'Logged in as:' + this.user.username
