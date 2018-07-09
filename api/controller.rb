@@ -42,11 +42,15 @@ class Controller
   end
 
   def load_users
-    users = eval @_bluzelle.read 'users'
+    users = eval @_bluzelle.read('users')
     output =
       users.map do |user_id|
         begin
-          eval @_bluzelle.read user_id
+          user = eval @_bluzelle.read(user_id)
+          user[:_id] = user_id
+          user.delete :password_hash
+          user.delete :email
+          user
         rescue
           nil
         end

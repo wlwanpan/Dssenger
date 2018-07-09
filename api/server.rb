@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra-websocket'
 require 'sinatra/cross_origin'
 require 'json'
 
@@ -11,7 +12,7 @@ class Connection < Sinatra::Base
   register Sinatra::CrossOrigin
 
   set reload_templates: false
-  set :bind, '0.0.0.0'
+  set :server, %w[webrick]
 
   configure do
     enable :cross_origin
@@ -95,9 +96,23 @@ class Connection < Sinatra::Base
     # end
   end
 
-  post '/' do
-    # @_connections.each { |out| out << "#{out}: #{params[:msg]}" }
-    204
+  get '/connect' do
+    request.websocket do |ws|
+      ws.onopen do
+        ws.send("Connected")
+        settings.sockets << ws
+      end
+      ws.onmessage do |msg|
+        EM.next_tick {
+          settings.sockets.each do |s|
+            s.send(msg)
+          end
+        }
+      end
+      ws.onclose do
+        settings.sockets.delete(ws)
+      end
+    end
   end
 
 end

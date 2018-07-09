@@ -55,6 +55,9 @@ export default {
       this.error.message = message
       this.showError()
     })
+    this.$socket.on('message', (data) => {
+      this.$eventBusEmit('message-received', data)
+    })
   },
   methods: {
     loginUser(userData) {
